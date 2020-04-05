@@ -2867,13 +2867,72 @@ var drawMilk = function (ctx, x, y) {
     // "M"
     ctx.strokeStyle = "#000";
     ctx.beginPath();
-    ctx.moveTo(-2.5, 5);
-    ctx.lineTo(-2.5, 0);
+    ctx.moveTo(-2, 4);
+    ctx.lineTo(-2, 0.5);
     ctx.lineTo(0, 2);
-    ctx.lineTo(2.5, 0);
-    ctx.lineTo(2.5, 5);
+    ctx.lineTo(2, 0.5);
+    ctx.lineTo(2, 4);
 
     ctx.stroke();
+
+    ctx.restore();
+};
+
+var drawRice = function (ctx, x, y) {
+    ctx.save();
+    ctx.translate(x, y);
+
+    // sticks
+    ctx.beginPath();
+    ctx.moveTo(0, 0);
+    ctx.lineTo(3, -8);
+    ctx.lineTo(4, -7.5);
+    ctx.lineTo(0, 0);
+    ctx.closePath();
+    ctx.fillStyle = "#A40";
+    ctx.fill();
+
+    ctx.beginPath();
+    ctx.moveTo(2, 0);
+    ctx.lineTo(5, -7.0);
+    ctx.lineTo(6, -6.5);
+    ctx.lineTo(2, 0);
+    ctx.closePath();
+    ctx.fillStyle = "#A40";
+    ctx.fill();
+
+    // bowl
+    ctx.beginPath();
+    ctx.moveTo(-6, 0);
+    ctx.arc(0, 0, 6, 0, Math.PI);
+    ctx.closePath();
+
+    ctx.strokeStyle = "#999999"
+    ctx.fillStyle = "#00b1ff";
+    ctx.stroke();
+    ctx.fill();
+
+    // plate
+    ctx.beginPath();
+    ctx.rect(-5, 5, 10, 1);
+    ctx.strokeStyle = "#999999"
+    ctx.fillStyle = "#999999";
+    ctx.stroke();
+    ctx.fill();
+
+    // rice
+    ctx.beginPath();
+    ctx.moveTo(-5.5, 0);
+    ctx.quadraticCurveTo(-4.75, -3, -4.0, -2);
+    ctx.quadraticCurveTo(-3.25, -4, -2.5, -3);
+    ctx.quadraticCurveTo(-1.75, -5, -1.0, -4);
+    ctx.quadraticCurveTo(0, -6, 1.0, -4);
+    ctx.quadraticCurveTo(1.75, -5, 2.5, -3);
+    ctx.quadraticCurveTo(3.25, -4, 4.0, -2);
+    ctx.quadraticCurveTo(4.75, -3, 5.5, 0);
+    ctx.closePath();
+    ctx.fillStyle = "#FFF";
+    ctx.fill();
 
     ctx.restore();
 };

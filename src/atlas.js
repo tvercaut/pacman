@@ -264,7 +264,7 @@ var atlas = (function(){
         // draw hoarding goods
         row++;
         drawAtCell(function (x, y) { drawMilk(ctx, x, y); }, row, 0);
-        //drawAtCell(function (x, y) { drawRice(ctx, x, y); }, row, 1);
+        drawAtCell(function (x, y) { drawRice(ctx, x, y); }, row, 1);
         //drawAtCell(function (x, y) { drawPenne(ctx, x, y); }, row, 2);
         //drawAtCell(function (x, y) { drawFarfalle(ctx, x, y); }, row, 3);
         //drawAtCell(function (x, y) { drawFusilli(ctx, x, y); }, row, 4);
