@@ -2832,3 +2832,48 @@ var drawExclamationPoint = function(ctx,x,y) {
 
     ctx.restore();
 };
+
+var drawMilk = function (ctx, x, y) {
+    ctx.save();
+    ctx.translate(x, y);
+
+    ctx.strokeStyle = "#999999"
+    ctx.fillStyle = "#FFF";
+
+    // outside
+    ctx.beginPath();
+    ctx.moveTo(-4, 6);
+    ctx.lineTo(-4, -2);
+    ctx.lineTo(0, -6);
+    ctx.lineTo(0, -7);
+    ctx.lineTo(0, -6);
+    ctx.lineTo(4, -2);
+    ctx.lineTo(4, 6);
+    ctx.lineTo(-4, 6);
+    ctx.closePath();
+
+    ctx.fill();
+    ctx.stroke();
+
+    // lines in the middle
+    ctx.beginPath();
+    ctx.moveTo(-4, -2);
+    ctx.lineTo(4, -2);
+    ctx.closePath();
+
+    ctx.fill();
+    ctx.stroke();
+
+    // "M"
+    ctx.strokeStyle = "#000";
+    ctx.beginPath();
+    ctx.moveTo(-2.5, 5);
+    ctx.lineTo(-2.5, 0);
+    ctx.lineTo(0, 2);
+    ctx.lineTo(2.5, 0);
+    ctx.lineTo(2.5, 5);
+
+    ctx.stroke();
+
+    ctx.restore();
+};

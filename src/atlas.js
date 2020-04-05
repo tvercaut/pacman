@@ -263,6 +263,14 @@ var atlas = (function(){
         // Covid 19
         // draw hoarding goods
         row++;
+        drawAtCell(function (x, y) { drawMilk(ctx, x, y); }, row, 0);
+        //drawAtCell(function (x, y) { drawRice(ctx, x, y); }, row, 1);
+        //drawAtCell(function (x, y) { drawPenne(ctx, x, y); }, row, 2);
+        //drawAtCell(function (x, y) { drawFarfalle(ctx, x, y); }, row, 3);
+        //drawAtCell(function (x, y) { drawFusilli(ctx, x, y); }, row, 4);
+        //drawAtCell(function (x, y) { drawToiletPaper(ctx, x, y); }, row, 5);
+        //drawAtCell(function (x, y) { drawToiletRoll(ctx, x, y); }, row, 6);
+        //drawAtCell(function (x, y) { drawGoldenToiletRoll(ctx, x, y); }, row, 7);
 
         var drawVirusCells = function (row, color) {
             var i, f;
@@ -579,23 +587,34 @@ var atlas = (function(){
         copyCellTo(row,col,destCtx,x,y);
     };
 
-    var copyFruitSprite = function(destCtx,x,y,name) {
-        var row = 0;
-        var col = {
-            "cherry": 0,
-            "strawberry": 1,
-            "orange": 2,
-            "apple": 3,
-            "melon": 4,
-            "galaxian": 5,
-            "bell": 6,
-            "key": 7,
-            "pretzel": 8,
-            "pear": 9,
-            "banana": 10,
-            "cookie": 11,
-            "cookieface": 12,
-        }[name];
+    var copyFruitSprite = function (destCtx, x, y, name) {
+        var fruits = {
+            "cherry": [0, 0],
+            "strawberry": [0, 1],
+            "orange": [0, 2],
+            "apple": [0, 3],
+            "melon": [0, 4],
+            "galaxian": [0, 5],
+            "bell": [0, 6],
+            "key": [0, 7],
+            "pretzel": [0, 8],
+            "pear": [0, 9],
+            "banana": [0, 10],
+            "cookie": [0, 11],
+            "cookieface": [0, 12],
+            // covid19 fruits
+            'milk': [21, 0],
+            'rice': [21, 1],
+            'penne': [21, 2],
+            'farfalle': [21, 3],
+            'fusilli': [21, 4],
+            'toilet paper': [21, 5],
+            'toilet roll': [21, 6],
+            'golden roll': [21, 7],
+        };
+
+        var row = fruits[name][0];
+        var col = fruits[name][1];
 
         copyCellTo(row,col,destCtx,x,y);
     };
