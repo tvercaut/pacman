@@ -264,12 +264,32 @@ var atlas = (function(){
         // draw hoarding goods
         row++;
 
-        // draw virus monsters
+        var drawVirusCells = function (row, color) {
+            var i, f;
+            var col = 0;
+            for (i = 0; i < 4; i++) { // dirEnum
+                for (f = 0; f < 2; f++) { // frame
+                    drawAtCell(function (x, y) { drawVirusSprite(ctx, x, y, f, i, false, false, color); }, row, col);
+                    col++;
+                }
+            }
+        };
+
         row++;
+        drawVirusCells(row, "#FF0000");
         row++;
+        drawVirusCells(row, "#FFB8FF");
         row++;
+        drawVirusCells(row, "#00FFFF");
         row++;
+        drawVirusCells(row, "#FFB851");
+
+        // draw ghosts scared
         row++;
+        drawAtCell(function (x, y) { drawVirusSprite(ctx, x, y, 0, DIR_UP, true, false, "#fff"); }, row, 0);
+        drawAtCell(function (x, y) { drawVirusSprite(ctx, x, y, 1, DIR_UP, true, false, "#fff"); }, row, 1);
+        drawAtCell(function (x, y) { drawVirusSprite(ctx, x, y, 0, DIR_UP, true, true, "#fff"); }, row, 2);
+        drawAtCell(function (x, y) { drawVirusSprite(ctx, x, y, 1, DIR_UP, true, true, "#fff"); }, row, 3);
 
         // draw pacman immune
         row++;
@@ -432,6 +452,35 @@ var atlas = (function(){
         copyCellTo(row, col, destCtx, x, y);
     };
 
+    var copyVirusSprite = function (destCtx, x, y, frame, dirEnum, scared, flash, eyes_only, color) {
+        if (eyes_only) {
+            copyGhostSprite(destCtx, x, y, frame, dirEnum, scared, flash, eyes_only, color);
+        }
+        var row, col;
+        if (scared) {
+            row = 26;
+            col = flash ? 2 : 0;
+            col += frame;
+        }
+        else {
+            col = dirEnum * 2 + frame;
+            if (color == blinky.color) {
+                row = 22;
+            }
+            else if (color == pinky.color) {
+                row = 23;
+            }
+            else if (color == inky.color) {
+                row = 24;
+            }
+            else if (color == clyde.color) {
+                row = 25;
+            }
+        }
+
+        copyCellTo(row, col, destCtx, x, y);
+    }
+
     var copyOttoSprite = function(destCtx,x,y,dirEnum,frame) {
         var col,row;
         if (dirEnum == DIR_UP) {
@@ -558,5 +607,6 @@ var atlas = (function(){
         drawMsPacFruitPoints: copyMsPacFruitPoints,
         drawSnail: copySnail,
         drawCovid19ManSprite: copyCovid19ManSprite,
+        drawVirusSprite: copyVirusSprite,
     };
 })();

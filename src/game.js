@@ -125,6 +125,9 @@ var getGhostDrawFunc = function(mode) {
     else if (mode == GAME_COOKIE) {
         return atlas.drawMuppetSprite;
     }
+    else if (mode == GAME_COVID19) {
+        return atlas.drawVirusSprite;
+    }
     else {
         return atlas.drawGhostSprite;
     }

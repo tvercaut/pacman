@@ -261,6 +261,178 @@ var drawGhostSprite = (function(){
     };
 })();
 
+var drawVirusSprite = (function () {
+
+    var addBody = function (ctx) {
+        ctx.save();
+
+        // translate by half a pixel to the right
+        // to try to force centering
+        ctx.translate(7.5, 7);
+        ctx.arc(0, 0, 6, 0, 2 * Math.PI);
+
+        ctx.restore();
+    };
+
+    var addExtensions = function (ctx, frame) {
+        ctx.save();
+
+        // translate by half a pixel to the right
+        // to try to force centering
+        ctx.translate(7.5, 7);
+
+        var r1 = 6;
+        var r2 = 7.5;
+        var step = 2 * Math.PI / 8;
+        var offset = 0;
+        if (frame) {
+            offset = step / 2;
+        }
+
+        // large extensions
+        for (var angle = offset; angle < 2 * Math.PI; angle += step) {
+            var s = Math.sin(angle);
+            var c = Math.cos(angle)
+            ctx.moveTo(r1 * s, r1 * c);
+            ctx.lineTo(r2 * s, r2 * c);
+            ctx.save();
+            ctx.translate(r2 * s, r2 * c);
+            ctx.rotate(-angle);
+            ctx.moveTo(-1, 0);
+            ctx.lineTo(1, 0);
+            ctx.restore();
+        }
+
+        ctx.restore();
+    }
+
+    // draw regular ghost eyes
+    var addEyes = function (ctx, dirEnum) {
+        var i;
+
+        ctx.save();
+        ctx.translate(2, 3);
+
+        var coords = [
+            0, 1,
+            1, 0,
+            2, 0,
+            3, 1,
+            3, 3,
+            2, 4,
+            1, 4,
+            0, 3
+        ];
+
+        var drawEyeball = function () {
+            ctx.translate(0.5, 0.5);
+            ctx.beginPath();
+            ctx.moveTo(coords[0], coords[1]);
+            for (i = 2; i < coords.length; i += 2)
+                ctx.lineTo(coords[i], coords[i + 1]);
+            ctx.closePath();
+            ctx.fill();
+            ctx.lineJoin = 'round';
+            ctx.stroke();
+            ctx.translate(-0.5, -0.5);
+            //ctx.fillRect(1,0,2,5); // left
+            //ctx.fillRect(0,1,4,3);
+        };
+
+        // translate eye balls to correct position
+        if (dirEnum == DIR_LEFT) ctx.translate(-1, 0);
+        else if (dirEnum == DIR_RIGHT) ctx.translate(1, 0);
+        else if (dirEnum == DIR_UP) ctx.translate(0, -1);
+        else if (dirEnum == DIR_DOWN) ctx.translate(0, 1);
+
+        // draw eye balls
+        ctx.fillStyle = "#FFF";
+        ctx.strokeStyle = "#FFF";
+        ctx.lineWidth = 1.0;
+        ctx.lineJoin = 'round';
+        drawEyeball();
+        ctx.translate(6, 0);
+        drawEyeball();
+
+        // translate pupils to correct position
+        if (dirEnum == DIR_LEFT) ctx.translate(0, 2);
+        else if (dirEnum == DIR_RIGHT) ctx.translate(2, 2);
+        else if (dirEnum == DIR_UP) ctx.translate(1, 0);
+        else if (dirEnum == DIR_DOWN) ctx.translate(1, 3);
+
+        // draw pupils
+        ctx.fillStyle = "#00F";
+        ctx.fillRect(0, 0, 2, 2); // right
+        ctx.translate(-6, 0);
+        ctx.fillRect(0, 0, 2, 2); // left
+
+        ctx.restore();
+    };
+
+    // draw scared ghost face
+    var addScaredFace = function (ctx, flash) {
+        ctx.strokeStyle = ctx.fillStyle = flash ? "#F00" : "#FF0";
+
+        // eyes
+        ctx.fillRect(4, 5, 2, 2);
+        ctx.fillRect(8, 5, 2, 2);
+
+        // mouth
+        var coords = [
+            1, 10,
+            2, 9,
+            3, 9,
+            4, 10,
+            5, 10,
+            6, 9,
+            7, 9,
+            8, 10,
+            9, 10,
+            10, 9,
+            11, 9,
+            12, 10,
+        ];
+        ctx.translate(0.5, 0.5);
+        ctx.beginPath();
+        ctx.moveTo(coords[0], coords[1]);
+        for (i = 2; i < coords.length; i += 2)
+            ctx.lineTo(coords[i], coords[i + 1]);
+        ctx.lineWidth = 1.0;
+        ctx.stroke();
+        ctx.translate(-0.5, -0.5);
+    };
+
+
+    return function (ctx, x, y, frame, dirEnum, scared, flash, color) {
+        ctx.save();
+        ctx.translate(x - 7, y - 7);
+
+        if (scared)
+            color = flash ? "#FFF" : "#2121ff";
+
+        // draw body
+        ctx.beginPath();
+        addBody(ctx);
+        addExtensions(ctx, frame);
+        ctx.closePath();
+        ctx.lineJoin = 'round';
+        ctx.lineCap = 'round';
+        ctx.lineWidth = 1;
+        ctx.strokeStyle = color;
+        ctx.stroke();
+        ctx.fillStyle = color;
+        ctx.fill();
+
+        // draw face
+        if (scared)
+            addScaredFace(ctx, flash);
+        else
+            addEyes(ctx, dirEnum);
+
+        ctx.restore();
+    };
+})();
+
 // draw points displayed when pac-man eats a ghost or a fruit
 var drawPacPoints = (function(){
     var ctx;
