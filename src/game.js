@@ -6,6 +6,7 @@ var GAME_PACMAN = 0;
 var GAME_MSPACMAN = 1;
 var GAME_COOKIE = 2;
 var GAME_OTTO = 3;
+var GAME_COVID19 = 4;
 
 var practiceMode = false;
 var turboMode = false;
@@ -14,7 +15,7 @@ var turboMode = false;
 var gameMode = GAME_PACMAN;
 var getGameName = (function(){
 
-    var names = ["PAC-MAN", "MS PAC-MAN", "COOKIE-MAN","CRAZY OTTO"];
+    var names = ["PAC-MAN", "MS PAC-MAN", "COOKIE-MAN","CRAZY OTTO","COVID-19"];
     
     return function(mode) {
         if (mode == undefined) {
@@ -70,6 +71,19 @@ var getGameDescription = (function(){
             "REMAKE:",
             "SHAUN WILLIAMS",
         ],
+        [
+            "ORIGINAL ARCADE:",
+            "NAMCO (C) 1980",
+            "",
+            "REVERSE-ENGINEERING:",
+            "JAMEY PITTMAN",
+            "",
+            "REMAKE:",
+            "SHAUN WILLIAMS",
+            "",
+            "COVID-19 MOD:",
+            "MKBIT",
+        ],
     ];
     
     return function(mode) {
@@ -85,16 +99,19 @@ var getGhostNames = function(mode) {
         mode = gameMode;
     }
     if (mode == GAME_OTTO) {
-        return ["plato","darwin","freud","newton"];
+        return ["plato", "darwin", "freud", "newton"];
     }
     else if (mode == GAME_MSPACMAN) {
-        return ["blinky","pinky","inky","sue"];
+        return ["blinky", "pinky", "inky", "sue"];
     }
     else if (mode == GAME_PACMAN) {
-        return ["blinky","pinky","inky","clyde"];
+        return ["blinky", "pinky", "inky", "clyde"];
     }
     else if (mode == GAME_COOKIE) {
-        return ["elmo","piggy","rosita","zoe"];
+        return ["elmo", "piggy", "rosita", "zoe"];
+    }
+    else if (mode == GAME_COVID19) {
+        return ["wuhan", "lockdown", "cough", "fever"];
     }
 };
 
@@ -129,6 +146,9 @@ var getPlayerDrawFunc = function(mode) {
     else if (mode == GAME_COOKIE) {
         //return atlas.drawCookiemanSprite;
         return drawCookiemanSprite;
+    }
+    else if (mode == GAME_COVID19) {
+        return atlas.drawCovid19ManSprite;
     }
 };
 

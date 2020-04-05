@@ -4,7 +4,7 @@ var atlas = (function(){
     var canvas,ctx;
     var size = 22;
     var cols = 14; // has to be ONE MORE than intended to fix some sort of CHROME BUG (last cell always blank?)
-    var rows = 22;
+    var rows = 29;
 
     var creates = 0;
 
@@ -258,8 +258,34 @@ var atlas = (function(){
         drawMsOttoCells(row,4, DIR_RIGHT);
         row++;
         drawMsOttoCells(row,0, DIR_DOWN);
-        drawMsOttoCells(row,4, DIR_LEFT);
+        drawMsOttoCells(row, 4, DIR_LEFT);
 
+        // Covid 19
+        // draw hoarding goods
+        row++;
+
+        // draw virus monsters
+        row++;
+        row++;
+        row++;
+        row++;
+        row++;
+
+        // draw pacman immune
+        row++;
+        var drawCovid19ManCells = function (row, col, dir) {
+            drawAtCell(function (x, y) { drawCovid19ManSprite(ctx, x, y, dir, 0); }, row, col);
+            drawAtCell(function (x, y) { drawCovid19ManSprite(ctx, x, y, dir, 1); }, row, col + 1);
+            drawAtCell(function (x, y) { drawCovid19ManSprite(ctx, x, y, dir, 2); }, row, col + 2);
+        };
+        (function () {
+            var i;
+            var col = 0;
+            for (i = 0; i < 4; i++) {
+                drawCovid19ManCells(row, col, i);
+                col += 3;
+            }
+        })();
     };
 
     var copyCellTo = function(row, col, destCtx, x, y,display) {
@@ -466,6 +492,20 @@ var atlas = (function(){
         copyCellTo(row,col,destCtx,x,y);
     };
 
+    var copyCovid19ManSprite = function (destCtx, x, y, dirEnum, frame, ignore, energized) {
+        // for non in game cases show mask all the time
+        // if energized pac man has mask
+        if (energized == undefined || energized == true) {
+            var row = 27;
+            var col = dirEnum * 3 + frame;
+            copyCellTo(row, col, destCtx, x, y);
+        }
+        else {
+            // normal pacman in other cases
+            copyPacmanSprite(destCtx, x, y, dirEnum, frame);
+        }
+    };
+
     var copyMsPacmanSprite = function(destCtx,x,y,dirEnum,frame) {
         // TODO: determine row, col
         //copyCellTo(row,col,destCtx,x,y);
@@ -517,5 +557,6 @@ var atlas = (function(){
         drawPacFruitPoints: copyPacFruitPoints,
         drawMsPacFruitPoints: copyMsPacFruitPoints,
         drawSnail: copySnail,
+        drawCovid19ManSprite: copyCovid19ManSprite,
     };
 })();

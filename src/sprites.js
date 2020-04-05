@@ -1481,6 +1481,81 @@ var drawPacmanSprite = function(ctx,x,y,dirEnum,angle,mouthShift,scale,centerShi
     ctx.restore();
 };
 
+var drawCovid19ManSprite = function (ctx, x, y, dirEnum, frame, rot_angle) {
+    var angle = 0;
+
+    // draw body
+    if (frame == 0) {
+        // closed
+        drawPacmanSprite(ctx, x, y, dirEnum, 0, undefined, undefined, undefined, undefined, undefined, rot_angle);
+        angle = Math.atan(0.4); // angle for mask drawing
+    }
+    else if (frame == 1) {
+        // open
+        angle = Math.atan(4 / 5);
+        drawPacmanSprite(ctx, x, y, dirEnum, angle, undefined, undefined, undefined, undefined, undefined, rot_angle);
+        angle = Math.atan(0.9); // angle for mask drawing
+    }
+    else if (frame == 2) {
+        // wide
+        angle = Math.atan(6 / 3);
+        drawPacmanSprite(ctx, x, y, dirEnum, angle, undefined, undefined, undefined, undefined, undefined, rot_angle);
+        angle = Math.atan(2.1); // angle for mask drawing
+    }
+
+    ctx.save();
+    ctx.translate(x, y);
+    if (rot_angle) {
+        ctx.rotate(rot_angle);
+    }
+
+    // reflect or rotate sprite according to current direction
+    var d90 = Math.PI / 2;
+    if (dirEnum == DIR_UP)
+        ctx.rotate(-d90);
+    else if (dirEnum == DIR_DOWN)
+        ctx.rotate(d90);
+    else if (dirEnum == DIR_LEFT)
+        ctx.scale(-1, 1);
+
+    // mask
+    var r2 = 7.0;
+    var c = Math.cos(angle);
+    var s = Math.sin(angle);
+    var c_part = Math.cos(angle / 3);
+    var s_part = Math.sin(angle / 3);
+
+    // mask fill
+    ctx.fillStyle = "rgba(0,255,185,0.7)";
+    ctx.beginPath();
+    ctx.moveTo(-4, 0);
+    ctx.lineTo(r2 * c, r2 * s);
+    ctx.lineTo(r2 * c_part, r2 * s_part);
+    ctx.lineTo(r2 * c_part, -r2 * s_part);
+    ctx.lineTo(r2 * c, -r2 * s);
+    ctx.lineTo(-4, 0);
+
+
+    ctx.fill();
+
+    // mask accents
+    ctx.strokeStyle = "#838383";
+    ctx.lineWidth = 0.5;
+    ctx.lineCap = "round";
+    ctx.beginPath();
+    ctx.moveTo(-4, 0);
+    ctx.lineTo(r2 * c, r2 * s);
+    ctx.moveTo(-4, 0);
+    ctx.lineTo(r2 * c_part, r2 * s_part);
+    ctx.moveTo(-4, 0);
+    ctx.lineTo(r2 * c_part, -r2 * s_part);
+    ctx.moveTo(-4, 0);
+    ctx.lineTo(r2 * c, -r2 * s);
+    ctx.stroke();
+
+    ctx.restore();
+};
+
 // draw giant pacman body
 var drawGiantPacmanSprite = function(ctx,x,y,dirEnum,frame) {
 

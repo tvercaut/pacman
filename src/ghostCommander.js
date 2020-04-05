@@ -47,7 +47,7 @@ var ghostCommander = (function() {
                 i = 2;
             var newCmd = times[i][frame];
 
-            if (gameMode == GAME_PACMAN) {
+            if (gameMode == GAME_PACMAN || gameMode == GAME_COVID19) {
                 return newCmd;
             }
             else if (frame <= 27*60) { // only revearse twice in Ms. Pac-Man (two happen in first 27 seconds)

@@ -126,6 +126,14 @@ var homeState = (function(){
         function(ctx,x,y,frame) {
             drawCookiemanSprite(ctx,x,y,DIR_RIGHT,getIconAnimFrame(frame), true);
         });
+    menu.addTextIconButton(getGameName(GAME_COVID19),
+        function () {
+            gameMode = GAME_COVID19;
+            exitTo(preNewGameState);
+        },
+        function (ctx, x, y, frame) {
+            atlas.drawCovid19ManSprite(ctx, x, y, DIR_RIGHT, getIconAnimFrame(frame));
+        });
 
     menu.addSpacer(0.5);
     menu.addTextIconButton("LEARN",
@@ -362,7 +370,7 @@ var gameTitleState = (function() {
         }
     });
     yellowBtn.setIcon(function (ctx,x,y,frame) {
-        getPlayerDrawFunc()(ctx,x,y,DIR_RIGHT,pacman.getAnimFrame(pacman.getStepFrame(Math.floor((gameMode==GAME_PACMAN?frame+4:frame)/1.5))),true);
+        getPlayerDrawFunc()(ctx,x,y,DIR_RIGHT,pacman.getAnimFrame(pacman.getStepFrame(Math.floor(((gameMode==GAME_PACMAN||gameMode==GAME_COVID19)?frame+4:frame)/1.5))),true);
     });
 
     x += 2*w;
@@ -1241,7 +1249,7 @@ var readyNewState = newChildObject(readyState, {
 
         // increment level and ready the next map
         level++;
-        if (gameMode == GAME_PACMAN) {
+        if (gameMode == GAME_PACMAN || gameMode == GAME_COVID19) {
             map = mapPacman;
         }
         else if (gameMode == GAME_MSPACMAN || gameMode == GAME_OTTO) {

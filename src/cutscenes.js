@@ -1075,11 +1075,128 @@ var cookieCutscene2 = (function() {
     }); // returned object
 })(); // mspacCutscene1
 
+var covid19Cutscene1 = newChildObject(scriptState, {
+    init: function() {
+        scriptState.init.call(this);
+
+        // initialize actor positions
+        pacman.setPos(232, 164);
+        blinky.setPos(257, 164);
+
+        // initialize actor directions
+        blinky.setDir(DIR_LEFT);
+        blinky.faceDirEnum = DIR_LEFT;
+        pacman.setDir(DIR_LEFT);
+
+        // initialize misc actor properties
+        blinky.scared = false;
+        blinky.mode = GHOST_OUTSIDE;
+
+        // clear other states
+        backupCheats();
+        clearCheats();
+        energizer.reset();
+
+        // temporarily override actor step sizes
+        pacman.getNumSteps = function() {
+            return Actor.prototype.getStepSizeFromTable.call(this, 5, STEP_PACMAN);
+        };
+        blinky.getNumSteps = function() {
+            return Actor.prototype.getStepSizeFromTable.call(this, 5, STEP_ELROY2);
+        };
+
+        // temporarily override steering functions
+        pacman.steer = blinky.steer = function(){};
+    },
+    triggers: {
+
+        // Blinky chases Pac-Man
+        0: {
+            update: function() {
+                var j;
+                for (j=0; j<2; j++) {
+                    pacman.update(j);
+                    blinky.update(j);
+                }
+                pacman.frames++;
+                blinky.frames++;
+            },
+            draw: function() {
+                renderer.blitMap();
+                renderer.beginMapClip();
+                renderer.drawPlayer(false);
+                renderer.drawGhost(blinky);
+                renderer.endMapClip();
+            },
+        },
+
+        // Pac-Man chases Blinky
+        260: {
+            init: function() {
+                pacman.setPos(-193, 164);
+                blinky.setPos(-8, 164);
+
+                // initialize actor directions
+                blinky.setDir(DIR_RIGHT);
+                blinky.faceDirEnum = DIR_RIGHT;
+                pacman.setDir(DIR_RIGHT);
+
+                // initialize misc actor properties
+                blinky.scared = true;
+
+                // temporarily override step sizes
+                pacman.getNumSteps = function() {
+                    return Actor.prototype.getStepSizeFromTable.call(this, 5, STEP_PACMAN_FRIGHT);
+                };
+                blinky.getNumSteps = function() {
+                    return Actor.prototype.getStepSizeFromTable.call(this, 5, STEP_GHOST_FRIGHT);
+                };
+            },
+            update: function() {
+                var j;
+                for (j=0; j<2; j++) {
+                    pacman.update(j);
+                    blinky.update(j);
+                }
+                pacman.frames++;
+                blinky.frames++;
+            },
+            draw: function() {
+                renderer.blitMap();
+                renderer.beginMapClip();
+                renderer.drawGhost(blinky);
+                renderer.drawPlayer(true);
+                renderer.endMapClip();
+            },
+        },
+
+        // end
+        640: {
+            init: function() {
+                // disable custom steps
+                delete pacman.getNumSteps;
+                delete blinky.getNumSteps;
+
+                // disable custom steering
+                delete pacman.steer;
+                delete blinky.steer;
+
+                // exit to next level
+                restoreCheats();
+                switchState(pacmanCutscene1.nextState, 60);
+            },
+        },
+    },
+});
+
+
+
 var cutscenes = [
     [pacmanCutscene1], // GAME_PACMAN
     [mspacmanCutscene1, mspacmanCutscene2], // GAME_MSPACMAN
     [cookieCutscene1, cookieCutscene2], // GAME_COOKIE
     [mspacmanCutscene1, mspacmanCutscene2], // GAME_OTTO
+    [covid19Cutscene1], // GAME_COVID19
 ];
 
 var isInCutScene = function() {
@@ -1128,6 +1245,12 @@ var triggerCutsceneAtEndLevel = function() {
         }
         else if (level == 5) {
             playCutScene(cookieCutscene2, readyNewState);
+            return true;
+        }
+    }
+    else if (gameMode == GAME_COVID19) {
+        if (level == 2) {
+            playCutScene(coronaCutscene1, readyNewState);
             return true;
         }
     }

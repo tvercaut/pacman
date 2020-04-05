@@ -450,13 +450,13 @@ var initRenderer = function(){
                     this.drawGhost(ghosts[i]);
                 }
                 if (!energizer.showingPoints())
-                    this.drawPlayer();
+                    this.drawPlayer(true);
                 else
                     this.drawEatenPoints();
             }
             // draw such that pacman appears on bottom
             else {
-                this.drawPlayer();
+                this.drawPlayer(false);
                 for (i=3; i>=0; i--) {
                     if (ghosts[i].isVisible) {
                         this.drawGhost(ghosts[i]);
@@ -771,6 +771,12 @@ var initRenderer = function(){
                             bgCtx.translate(2*tileSize,0);
                         }
                     }
+                    else if (gameMode == GAME_COVID19) {
+                        for (i = 0; i < lives; i++) {
+                            drawCovid19ManSprite(bgCtx, 0, 0, DIR_RIGHT, 0);
+                            bgCtx.translate(2 * tileSize, 0);
+                        }
+                    }
                     if (extraLives == Infinity) {
                         bgCtx.translate(-4*tileSize,0);
 
@@ -811,8 +817,8 @@ var initRenderer = function(){
                 var i,j;
                 var f,drawFunc;
                 var numFruit = 7;
-                var startLevel = Math.max(numFruit,level);
-                if (gameMode != GAME_PACMAN) {
+                var startLevel = Math.max(numFruit, level);
+                if (gameMode != GAME_PACMAN && gameMode != GAME_COVID19) {
                     // for the Pac-Man game, display the last 7 fruit
                     // for the Ms Pac-Man game, display stop after the 7th fruit
                     startLevel = Math.min(numFruit,startLevel);
@@ -951,25 +957,26 @@ var initRenderer = function(){
         },
 
         // draw pacman
-        drawPlayer: function() {
+        drawPlayer: function (energized) {
             var frame = pacman.getAnimFrame();
             if (pacman.invincible) {
                 ctx.globalAlpha = 0.6;
             }
 
-            var draw = function(pixel, dirEnum, steps) {
+            var draw = function (pixel, dirEnum, steps, energized) {
                 var frame = pacman.getAnimFrame(pacman.getStepFrame(steps));
                 var func = getPlayerDrawFunc();
-                func(ctx, pixel.x, pixel.y, dirEnum, frame, true);
+                func(ctx, pixel.x, pixel.y, dirEnum, frame, true, energized);
             };
 
             vcr.drawHistory(ctx, function(t) {
                 draw(
                     pacman.savedPixel[t],
                     pacman.savedDirEnum[t],
-                    pacman.savedSteps[t]);
+                    pacman.savedSteps[t],
+                    energized);
             });
-            draw(pacman.pixel, pacman.dirEnum, pacman.steps);
+            draw(pacman.pixel, pacman.dirEnum, pacman.steps, energized);
             if (pacman.invincible) {
                 ctx.globalAlpha = 1;
             }
@@ -1029,6 +1036,22 @@ var initRenderer = function(){
                 var angle = Math.floor(t/step)*step*maxAngle;
                 drawCookiemanSprite(ctx, pacman.pixel.x, pacman.pixel.y, pacman.dirEnum, frame, false, angle);
             }
+            else if (gameMode == GAME_COVID19) {
+                // 60 frames dying
+                // 15 frames exploding
+                var f = t * 75;
+                if (f <= 60) {
+                    // open mouth all the way while shifting corner of mouth forward
+                    t = f / 60;
+                    var a = frame * Math.PI / 6;
+                    drawCovid19ManSprite(ctx, pacman.pixel.x, pacman.pixel.y, pacman.dirEnum, a + t * (Math.PI - a), 4 * t);
+                }
+                else {
+                    // explode
+                    f -= 60;
+                    this.drawExplodingPlayer(f / 15);
+                }
+            }
         },
 
         // draw exploding pacman animation (with 0<=t<=1)
@@ -1057,7 +1080,7 @@ var initRenderer = function(){
                     atlas.drawFruitSprite(ctx, fruit.pixel.x, fruit.pixel.y, name);
                 }
                 else if (fruit.isScorePresent()) {
-                    if (gameMode == GAME_PACMAN) {
+                    if (gameMode == GAME_PACMAN || gameMode == GAME_COVID19) {
                         atlas.drawPacFruitPoints(ctx, fruit.pixel.x, fruit.pixel.y, fruit.getPoints());
                     }
                     else {

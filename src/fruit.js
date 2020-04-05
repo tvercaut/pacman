@@ -161,6 +161,25 @@ PacFruit.prototype = newChildObject(BaseFruit.prototype, {
     },
 });
 
+
+var Covid19Fruit = function () {
+    PacFruit.call(this);
+    this.fruits = [
+        { name: 'milk', points: 100 },
+        { name: 'rice', points: 300 },
+        { name: 'penne', points: 500 },
+        { name: 'farfalle', points: 700 },
+        { name: 'fusilli', points: 1000 },
+        { name: 'toilet paper', points: 2000 },
+        { name: 'toilet roll', points: 3000 },
+        { name: 'golden roll', points: 5000 },
+    ];
+};
+
+Covid19Fruit.prototype = newChildObject(PacFruit.prototype, {
+
+});
+
 // MS. PAC-MAN FRUIT
 
 var PATH_ENTER = 0;
@@ -338,10 +357,14 @@ var fruit;
 var setFruitFromGameMode = (function() {
     var pacfruit = new PacFruit();
     var mspacfruit = new MsPacFruit();
+    var covid19fruit = new Covid19Fruit();
     fruit = pacfruit;
     return function() {
         if (gameMode == GAME_PACMAN) {
             fruit = pacfruit;
+        }
+        else if (gameMode == GAME_COVID19) {
+            fruit = covid19fruit;
         }
         else {
             fruit = mspacfruit;

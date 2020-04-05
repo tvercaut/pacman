@@ -182,7 +182,7 @@ var getLevelAct = function(level) {
 };
 
 var getActColor = function(act) {
-    if (gameMode == GAME_PACMAN) {
+    if (gameMode == GAME_PACMAN || gameMode == GAME_COVID19) {
         return {
             wallFillColor: mapPacman.wallFillColor,
             wallStrokeColor: mapPacman.wallStrokeColor,
