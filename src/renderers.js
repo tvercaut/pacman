@@ -884,7 +884,7 @@ var initRenderer = function(){
             else if (tile == 'o') {
                 bgCtx.fillStyle = map.pelletColor;
                 bgCtx.beginPath();
-                bgCtx.arc(x*tileSize+midTile.x+0.5,y*tileSize+midTile.y,this.energizerSize/2,0,Math.PI*2);
+                this.drawEnergizerPellet(bgCtx, x * tileSize + midTile.x + 0.5, y * tileSize + midTile.y);
                 bgCtx.fill();
             }
             if (!isTranslated) {
@@ -1087,6 +1087,16 @@ var initRenderer = function(){
                         atlas.drawMsPacFruitPoints(ctx, fruit.pixel.x, fruit.pixel.y, fruit.getPoints());
                     }
                 }
+            }
+        },
+
+        // draw energizer
+        drawEnergizerPellet: function (ctx, x, y) {
+            if (gameMode == GAME_COVID19) {
+                atlas.drawPelletSprite(ctx, x, y);
+            }
+            else {
+                ctx.arc(x, y, this.energizerSize / 2, 0, Math.PI * 2);
             }
         },
 

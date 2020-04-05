@@ -1728,6 +1728,50 @@ var drawCovid19ManSprite = function (ctx, x, y, dirEnum, frame, rot_angle) {
     ctx.restore();
 };
 
+var drawPelletSprite = function (ctx, x, y) {
+    var angle = Math.atan(2.1); 
+
+    ctx.save();
+    ctx.translate(x, y);
+
+    // mask
+    var r2 = 4.0;
+    var c = Math.cos(angle);
+    var s = Math.sin(angle);
+    var c_part = Math.cos(angle / 3);
+    var s_part = Math.sin(angle / 3);
+
+    // mask fill
+    ctx.fillStyle = "rgba(0,255,185,0.7)";
+    ctx.beginPath();
+    ctx.moveTo(-4, 0);
+    ctx.lineTo(r2 * c, r2 * s);
+    ctx.lineTo(r2 * c_part, r2 * s_part);
+    ctx.lineTo(r2 * c_part, -r2 * s_part);
+    ctx.lineTo(r2 * c, -r2 * s);
+    ctx.lineTo(-4, 0);
+
+
+    ctx.fill();
+
+    // mask accents
+    ctx.strokeStyle = "#838383";
+    ctx.lineWidth = 0.5;
+    ctx.lineCap = "round";
+    ctx.beginPath();
+    ctx.moveTo(-4, 0);
+    ctx.lineTo(r2 * c, r2 * s);
+    ctx.moveTo(-4, 0);
+    ctx.lineTo(r2 * c_part, r2 * s_part);
+    ctx.moveTo(-4, 0);
+    ctx.lineTo(r2 * c_part, -r2 * s_part);
+    ctx.moveTo(-4, 0);
+    ctx.lineTo(r2 * c, -r2 * s);
+    ctx.stroke();
+
+    ctx.restore();
+};
+
 // draw giant pacman body
 var drawGiantPacmanSprite = function(ctx,x,y,dirEnum,frame) {
 

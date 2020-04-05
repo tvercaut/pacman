@@ -4,7 +4,7 @@ var atlas = (function(){
     var canvas,ctx;
     var size = 22;
     var cols = 14; // has to be ONE MORE than intended to fix some sort of CHROME BUG (last cell always blank?)
-    var rows = 29;
+    var rows = 30;
 
     var creates = 0;
 
@@ -291,6 +291,10 @@ var atlas = (function(){
         drawAtCell(function (x, y) { drawVirusSprite(ctx, x, y, 0, DIR_UP, true, true, "#fff"); }, row, 2);
         drawAtCell(function (x, y) { drawVirusSprite(ctx, x, y, 1, DIR_UP, true, true, "#fff"); }, row, 3);
 
+        // draw board items
+        row++
+        drawAtCell(function (x, y) { drawPelletSprite(ctx, x, y); }, row, 0);
+
         // draw pacman immune
         row++;
         var drawCovid19ManCells = function (row, col, dir) {
@@ -481,6 +485,12 @@ var atlas = (function(){
         copyCellTo(row, col, destCtx, x, y);
     }
 
+    var copyPelletSprite = function (destCtx, x, y) {
+        var row = 27;
+        var col = 0;
+        copyCellTo(row, col, destCtx, x, y);
+    }
+
     var copyOttoSprite = function(destCtx,x,y,dirEnum,frame) {
         var col,row;
         if (dirEnum == DIR_UP) {
@@ -545,7 +555,7 @@ var atlas = (function(){
         // for non in game cases show mask all the time
         // if energized pac man has mask
         if (energized == undefined || energized == true) {
-            var row = 27;
+            var row = 28;
             var col = dirEnum * 3 + frame;
             copyCellTo(row, col, destCtx, x, y);
         }
@@ -608,5 +618,6 @@ var atlas = (function(){
         drawSnail: copySnail,
         drawCovid19ManSprite: copyCovid19ManSprite,
         drawVirusSprite: copyVirusSprite,
+        drawPelletSprite: copyPelletSprite,
     };
 })();
