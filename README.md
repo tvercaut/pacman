@@ -1,17 +1,19 @@
-Pac-Man
+Pac-Man with Covid-19 Game Mode
 =======
 
-A historical tribute and accurate remake of the original Pac-Man arcade game
+This is based on the great work of Shaun Williams (https://github.com/masonicGIT/pacman).
+It extends the original versions with a Covid-19 mode.
 
-Inspired by [The Pac-Man Dossier](http://home.comcast.net/~jpittman2/pacman/pacmandossier.html)
+Play Pac-Man in the Covid-19 version and try to stay away from the viruses.
+![Pacman with viruses](images/covid19-pacman-viruses.png)
 
-### Under Construction
+Collect milk, rice, noodles and toilet paper for additional points.
+![Hoarding goods](images/covid19-hoarding-goods.png)
 
-- Sound
-- Cutscenes
-- 2 Player switch-off
+If Pac-Man collects one of the masks it gets immune for a short time an is able to kill the viruses.
+![Game](images/covid19-game.png)
 
-Contact me at shaunewilliams@gmail.com
+
 
 License
 -------
@@ -45,18 +47,6 @@ fit the size of any screen.  **Performance** may increase by shrinking the windo
 - [iPad and iPhone (Mobile Safari)](http://www.atariage.com/forums/topic/202594-html5-pac-man/)
 - Samsung Galaxy Tablet 7 (Firefox Beta)
 - Nexus 7 (Chrome)
-
-Games
------
-
-Each of the following games are playable from the main menu.
-
-![Montage][1]
-
-- **Pac-Man**: 1980 original arcade by Namco.
-- **Ms. Pac-Man**: 1981 Pac-Man modification by GCC/Midway.
-- **Crazy Otto**: GCC's unreleased, in-house version of Ms. Pac-Man before it was sold to Midway. ([See video](http://www.youtube.com/watch?v=CEKAqWk-Tp4))
-- **Cookie-Man**: a brand new version of Ms. Pac-Man with a sophisticated **procedural map generator**.
 
 ### Turbo Mode
 
