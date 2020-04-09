@@ -265,12 +265,12 @@ var atlas = (function(){
         row++;
         drawAtCell(function (x, y) { drawMilk(ctx, x, y); }, row, 0);
         drawAtCell(function (x, y) { drawRice(ctx, x, y); }, row, 1);
-        //drawAtCell(function (x, y) { drawPenne(ctx, x, y); }, row, 2);
-        //drawAtCell(function (x, y) { drawFarfalle(ctx, x, y); }, row, 3);
-        //drawAtCell(function (x, y) { drawFusilli(ctx, x, y); }, row, 4);
-        //drawAtCell(function (x, y) { drawToiletPaper(ctx, x, y); }, row, 5);
-        //drawAtCell(function (x, y) { drawToiletRoll(ctx, x, y); }, row, 6);
-        //drawAtCell(function (x, y) { drawGoldenToiletRoll(ctx, x, y); }, row, 7);
+        drawAtCell(function (x, y) { drawPenne(ctx, x, y); }, row, 2);
+        drawAtCell(function (x, y) { drawFarfalle(ctx, x, y); }, row, 3);
+        drawAtCell(function (x, y) { drawFusilli(ctx, x, y); }, row, 4);
+        drawAtCell(function (x, y) { drawToiletPaper(ctx, x, y); }, row, 5);
+        drawAtCell(function (x, y) { drawToiletRoll(ctx, x, y, "#FFF"); }, row, 6);
+        drawAtCell(function (x, y) { drawToiletRoll(ctx, x, y, "#DAA520" /* gold */); }, row, 7);
 
         var drawVirusCells = function (row, color) {
             var i, f;

@@ -2936,3 +2936,256 @@ var drawRice = function (ctx, x, y) {
 
     ctx.restore();
 };
+
+var drawPenne = function (ctx, x, y) {
+    ctx.save();
+    ctx.translate(x, y);
+    ctx.rotate(-Math.PI / 6);
+
+    ctx.beginPath();
+    ctx.ellipse(-5, 0, 2, 4, Math.PI / 6, Math.PI / 2, -Math.PI / 2);
+    ctx.ellipse(5, 0, 2, 4, Math.PI / 6, -Math.PI / 2, Math.PI / 2);
+    ctx.ellipse(-5, 0, 2, 4, Math.PI / 6, Math.PI / 2, -Math.PI / 2);
+    ctx.fillStyle = "#c37600";
+    ctx.strokeStyle = "#fffa37";
+    ctx.fill();
+    ctx.stroke();
+
+    ctx.beginPath();
+    ctx.ellipse(-5, 0, 2, 4, Math.PI / 6, Math.PI / 2, -Math.PI / 2, true);
+    ctx.strokeStyle = "#fffa37";
+    ctx.stroke();
+
+    // use ellipse to easily get the start and end points of the line
+    ctx.beginPath();
+    ctx.ellipse(-5, 0, 2, 4, Math.PI / 6, -Math.PI / 4, -Math.PI / 4);
+    ctx.ellipse(5, 0, 2, 4, Math.PI / 6, -Math.PI / 4, -Math.PI / 4);
+    ctx.setLineDash([2, 1]);
+    ctx.strokeStyle = "#fffa37";
+    ctx.lineWidth = 0.7;
+    ctx.stroke();
+
+    ctx.beginPath();
+    ctx.ellipse(-5, 0, 2, 4, Math.PI / 6, -Math.PI / 12, -Math.PI / 12);
+    ctx.ellipse(5, 0, 2, 4, Math.PI / 6, -Math.PI / 12, -Math.PI / 12);
+    ctx.setLineDash([2, 1]);
+    ctx.strokeStyle = "#fffa37";
+    ctx.lineDashOffset = 1;
+    ctx.lineWidth = 0.7;
+    ctx.stroke();
+
+    ctx.beginPath();
+    ctx.ellipse(-5, 0, 2, 4, Math.PI / 6, Math.PI / 10, Math.PI / 10);
+    ctx.ellipse(5, 0, 2, 4, Math.PI / 6, Math.PI / 10, Math.PI / 10);
+    ctx.setLineDash([2, 1]);
+    ctx.strokeStyle = "#fffa37";
+    ctx.lineDashOffset = 1;
+    ctx.lineWidth = 0.7;
+    ctx.stroke();
+
+    ctx.restore();
+};
+
+var drawFarfalle = function (ctx, x, y) {
+    ctx.save();
+    ctx.translate(x, y);
+    ctx.rotate(-Math.PI / 6);
+
+    // base
+    ctx.beginPath();
+    ctx.moveTo(0, -1);
+    ctx.bezierCurveTo(-2, -1, -1, -5, -5, -5);
+
+    ctx.quadraticCurveTo(-10, -4, -5.5, -3);
+    ctx.quadraticCurveTo(-10, -2, -6, -1);
+    ctx.quadraticCurveTo(-10, 0, -6, 1);
+    ctx.quadraticCurveTo(-10, 2, -5.5, 3);
+    ctx.quadraticCurveTo(-10, 4, -5, 5);
+
+    ctx.bezierCurveTo(-1, 5, -2, 1, 0, 1);
+    ctx.bezierCurveTo(2, 1, 1, 5, 5, 5);
+
+    ctx.quadraticCurveTo(10, 4, 5.5, 3);
+    ctx.quadraticCurveTo(10, 2, 6, 1);
+    ctx.quadraticCurveTo(10, 0, 6, -1);
+    ctx.quadraticCurveTo(10, -2, 5.5, -3);
+    ctx.quadraticCurveTo(10, -4, 5, -5);
+
+    ctx.bezierCurveTo(1, -5, 2, -1, 0, -1);
+    ctx.strokeStyle = ctx.fillStyle = "#fffa37";
+    ctx.stroke();
+    ctx.fill();
+
+    // accent lines
+    ctx.beginPath();
+    ctx.moveTo(-5, 3);
+    ctx.quadraticCurveTo(0, -2, 5, 3);
+    ctx.moveTo(-5, -3);
+    ctx.quadraticCurveTo(0, 2, 5, -3);
+    ctx.strokeStyle = "#c37600";
+    ctx.lineWidth = 0.7;
+    ctx.lineCap = "round";
+    ctx.stroke();
+
+    ctx.restore();
+};
+
+var drawFusilli = function (ctx, x, y) {
+    ctx.save();
+    ctx.translate(x, y);
+    ctx.rotate(-Math.PI / 4);
+
+    ctx.beginPath();
+    ctx.fillStyle = "#c37600";
+    ctx.fill();
+    ctx.fillRect(-8, -1.5, 16, 3);
+
+    ctx.beginPath();
+
+    var singleSegment = function (x, y) {
+        ctx.moveTo(x-3, y-1.5);
+        ctx.bezierCurveTo(x-1, y-2, x-0.5, y-1.5, x+0, y+0);
+        ctx.bezierCurveTo(x+0.5, y+1.5, x+1, y+2, x+3, y+1.5);
+    };
+
+    ctx.moveTo(-5.4, 1.5);
+    ctx.bezierCurveTo(-12, 2, -5, 1.5, -5.6-3, -1.5);
+
+    singleSegment(-5.6, 0);
+    singleSegment(-2.8, 0);
+    singleSegment(0, 0);
+    singleSegment(2.8, 0);
+    singleSegment(5.6, 0);
+
+    ctx.moveTo(5.4, -1.5);
+    ctx.bezierCurveTo(12, -2, 5, -1.5, 5.6 + 3, 1.5);
+
+    ctx.strokeStyle = "#fffa37";
+    ctx.stroke();
+
+    ctx.restore();
+};
+
+var drawToiletPaper = function (ctx, x, y) {
+    ctx.save();
+    ctx.translate(x, y);
+    ctx.rotate(-Math.PI / 3);
+
+    ctx.beginPath();
+    ctx.moveTo(-6, -5);
+    ctx.lineTo(-6, 2);
+    ctx.bezierCurveTo(0, 2, 0, 5, 6, 5);
+    ctx.lineTo(6, -2);
+    ctx.bezierCurveTo(0, -2, 0, -5, -6, -5);
+    ctx.closePath();
+    ctx.strokeStyle = "#FFF";
+    ctx.fillStyle = "#FFF";
+    ctx.fill();
+    ctx.stroke();
+
+    ctx.beginPath();
+    ctx.moveTo(0, -5);
+    ctx.lineTo(0, 5);
+    ctx.setLineDash([1, 1]);
+    ctx.lineWidth = 0.7;
+    ctx.strokeStyle = "#000";
+    ctx.stroke();
+
+    ctx.restore();
+};
+
+var drawToiletRoll = function (ctx, x, y, fillColor) {
+    ctx.save();
+    ctx.translate(x, y);
+    //ctx.rotate(-Math.PI / 6);
+
+    ctx.beginPath();
+    ctx.moveTo(0, -3);
+
+    var radiusStep = 0.035;
+    // make a complete circle every 50 iterations
+    var ierationsPerCircle = 50;
+    var angleStep = (Math.PI * 2) / ierationsPerCircle;
+    var totalIterations = 160;
+
+    var radius = 0;
+    var angle = 0;
+
+    // bottom
+    ctx.beginPath();
+    radius = (totalIterations + 1) * radiusStep;
+    angle = (totalIterations + 1) * angleStep;
+    var max_x = -1000;
+    var min_x = 1000
+    for (var n = totalIterations; n > (totalIterations - ierationsPerCircle); n--) {
+        radius -= radiusStep;
+        angle -= angleStep;
+        var x = radius * Math.cos(angle);
+        var y = radius * Math.sin(angle) * 0.5 + 3;
+        ctx.lineTo(x, y);
+        max_x = Math.max(max_x, x);
+        min_x = Math.min(min_x, x);
+    }
+    ctx.lineWidth = 0.5;
+    ctx.strokeStyle = "#000";
+    ctx.fillStyle = fillColor;
+    ctx.fill();
+    ctx.stroke();
+
+    // middle
+    ctx.beginPath();
+    ctx.strokeStyle = "#000";
+    ctx.fillStyle = fillColor;
+    ctx.fillRect(min_x, -3, max_x - min_x, 6);
+
+    // top
+    ctx.beginPath();
+    radius = 0;
+    angle = 0;
+    for (var n = 0; n < totalIterations; n++) {
+        radius += radiusStep;
+        angle += angleStep;
+        var x = radius * Math.cos(angle);
+        var y = radius * Math.sin(angle) * 0.5 - 3;
+        ctx.lineTo(x, y);
+    }
+    ctx.lineWidth = 0.5;
+    ctx.strokeStyle = "#000";
+    ctx.fillStyle = fillColor;
+    ctx.fill();
+    ctx.stroke();
+
+    // middle hole
+    ctx.beginPath();
+    ctx.ellipse(0, -3, 1.5, 0.75, 0, 0, 2 * Math.PI);
+    ctx.fillStyle = "#000";
+    ctx.fill();
+
+    // end of roll
+    ctx.beginPath();
+    ctx.moveTo(radiusStep * totalIterations * Math.cos(angleStep * totalIterations), radiusStep * totalIterations * Math.sin(angleStep * totalIterations) * 0.5 - 3);
+    ctx.lineTo(radiusStep * totalIterations * Math.cos(angleStep * totalIterations), radiusStep * totalIterations * Math.sin(angleStep * totalIterations) * 0.5 + 3);
+    ctx.lineWidth = 0.5;
+    ctx.strokeStyle = "#000";
+    ctx.stroke();
+
+    // perforation
+    var iterationCountPerforation = totalIterations - 43;
+    ctx.beginPath();
+    ctx.moveTo(radiusStep * iterationCountPerforation * Math.cos(angleStep * iterationCountPerforation), radiusStep * iterationCountPerforation * Math.sin(angleStep * iterationCountPerforation) * 0.5 - 3);
+    ctx.lineTo(radiusStep * iterationCountPerforation * Math.cos(angleStep * iterationCountPerforation), radiusStep * iterationCountPerforation * Math.sin(angleStep * iterationCountPerforation) * 0.5 + 3);
+    ctx.lineWidth = 0.5;
+    ctx.setLineDash([1, 1]);
+    ctx.strokeStyle = "#000";
+    ctx.stroke();
+
+    ctx.restore();
+};
+
+var drawGoldenToiletRoll = function (ctx, x, y) {
+    ctx.save();
+    ctx.translate(x, y);
+    ctx.rotate(-Math.PI / 6);
+
+    ctx.restore();
+};
