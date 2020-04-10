@@ -166,6 +166,7 @@ var GAME_PACMAN = 0;
 var GAME_MSPACMAN = 1;
 var GAME_COOKIE = 2;
 var GAME_OTTO = 3;
+var GAME_COVID19 = 4;
 
 var practiceMode = false;
 var turboMode = false;
@@ -174,7 +175,7 @@ var turboMode = false;
 var gameMode = GAME_PACMAN;
 var getGameName = (function(){
 
-    var names = ["PAC-MAN", "MS PAC-MAN", "COOKIE-MAN","CRAZY OTTO"];
+    var names = ["PAC-MAN", "MS PAC-MAN", "COOKIE-MAN","CRAZY OTTO","COVID-19"];
     
     return function(mode) {
         if (mode == undefined) {
@@ -230,6 +231,19 @@ var getGameDescription = (function(){
             "REMAKE:",
             "SHAUN WILLIAMS",
         ],
+        [
+            "ORIGINAL ARCADE:",
+            "NAMCO (C) 1980",
+            "",
+            "REVERSE-ENGINEERING:",
+            "JAMEY PITTMAN",
+            "",
+            "REMAKE:",
+            "SHAUN WILLIAMS",
+            "",
+            "COVID-19 MOD:",
+            "MKBIT",
+        ],
     ];
     
     return function(mode) {
@@ -245,16 +259,19 @@ var getGhostNames = function(mode) {
         mode = gameMode;
     }
     if (mode == GAME_OTTO) {
-        return ["plato","darwin","freud","newton"];
+        return ["plato", "darwin", "freud", "newton"];
     }
     else if (mode == GAME_MSPACMAN) {
-        return ["blinky","pinky","inky","sue"];
+        return ["blinky", "pinky", "inky", "sue"];
     }
     else if (mode == GAME_PACMAN) {
-        return ["blinky","pinky","inky","clyde"];
+        return ["blinky", "pinky", "inky", "clyde"];
     }
     else if (mode == GAME_COOKIE) {
-        return ["elmo","piggy","rosita","zoe"];
+        return ["elmo", "piggy", "rosita", "zoe"];
+    }
+    else if (mode == GAME_COVID19) {
+        return ["wuhan", "lockdown", "cough", "fever"];
     }
 };
 
@@ -267,6 +284,9 @@ var getGhostDrawFunc = function(mode) {
     }
     else if (mode == GAME_COOKIE) {
         return atlas.drawMuppetSprite;
+    }
+    else if (mode == GAME_COVID19) {
+        return atlas.drawVirusSprite;
     }
     else {
         return atlas.drawGhostSprite;
@@ -289,6 +309,9 @@ var getPlayerDrawFunc = function(mode) {
     else if (mode == GAME_COOKIE) {
         //return atlas.drawCookiemanSprite;
         return drawCookiemanSprite;
+    }
+    else if (mode == GAME_COVID19) {
+        return atlas.drawCovid19ManSprite;
     }
 };
 
@@ -2534,7 +2557,7 @@ var atlas = (function(){
     var canvas,ctx;
     var size = 22;
     var cols = 14; // has to be ONE MORE than intended to fix some sort of CHROME BUG (last cell always blank?)
-    var rows = 22;
+    var rows = 30;
 
     var creates = 0;
 
@@ -2788,8 +2811,66 @@ var atlas = (function(){
         drawMsOttoCells(row,4, DIR_RIGHT);
         row++;
         drawMsOttoCells(row,0, DIR_DOWN);
-        drawMsOttoCells(row,4, DIR_LEFT);
+        drawMsOttoCells(row, 4, DIR_LEFT);
 
+        // Covid 19
+        // draw hoarding goods
+        row++;
+        drawAtCell(function (x, y) { drawMilk(ctx, x, y); }, row, 0);
+        drawAtCell(function (x, y) { drawRice(ctx, x, y); }, row, 1);
+        drawAtCell(function (x, y) { drawPenne(ctx, x, y); }, row, 2);
+        drawAtCell(function (x, y) { drawFarfalle(ctx, x, y); }, row, 3);
+        drawAtCell(function (x, y) { drawFusilli(ctx, x, y); }, row, 4);
+        drawAtCell(function (x, y) { drawToiletPaper(ctx, x, y); }, row, 5);
+        drawAtCell(function (x, y) { drawToiletRoll(ctx, x, y, "#FFF"); }, row, 6);
+        drawAtCell(function (x, y) { drawToiletRoll(ctx, x, y, "#DAA520" /* gold */); }, row, 7);
+
+        var drawVirusCells = function (row, color) {
+            var i, f;
+            var col = 0;
+            for (i = 0; i < 4; i++) { // dirEnum
+                for (f = 0; f < 2; f++) { // frame
+                    drawAtCell(function (x, y) { drawVirusSprite(ctx, x, y, f, i, false, false, color); }, row, col);
+                    col++;
+                }
+            }
+        };
+
+        row++;
+        drawVirusCells(row, "#FF0000");
+        row++;
+        drawVirusCells(row, "#FFB8FF");
+        row++;
+        drawVirusCells(row, "#00FFFF");
+        row++;
+        drawVirusCells(row, "#FFB851");
+
+        // draw ghosts scared
+        row++;
+        drawAtCell(function (x, y) { drawVirusSprite(ctx, x, y, 0, DIR_UP, true, false, "#fff"); }, row, 0);
+        drawAtCell(function (x, y) { drawVirusSprite(ctx, x, y, 1, DIR_UP, true, false, "#fff"); }, row, 1);
+        drawAtCell(function (x, y) { drawVirusSprite(ctx, x, y, 0, DIR_UP, true, true, "#fff"); }, row, 2);
+        drawAtCell(function (x, y) { drawVirusSprite(ctx, x, y, 1, DIR_UP, true, true, "#fff"); }, row, 3);
+
+        // draw board items
+        row++
+        drawAtCell(function (x, y) { drawPelletSprite(ctx, x, y); }, row, 0);
+
+        // draw pacman immune
+        row++;
+        var drawCovid19ManCells = function (row, col, dir) {
+            drawAtCell(function (x, y) { drawCovid19ManSprite(ctx, x, y, dir, 0); }, row, col);
+            drawAtCell(function (x, y) { drawCovid19ManSprite(ctx, x, y, dir, 1); }, row, col + 1);
+            drawAtCell(function (x, y) { drawCovid19ManSprite(ctx, x, y, dir, 2); }, row, col + 2);
+        };
+        (function () {
+            var i;
+            var col = 0;
+            for (i = 0; i < 4; i++) {
+                drawCovid19ManCells(row, col, i);
+                col += 3;
+            }
+        })();
     };
 
     var copyCellTo = function(row, col, destCtx, x, y,display) {
@@ -2936,6 +3017,41 @@ var atlas = (function(){
         copyCellTo(row, col, destCtx, x, y);
     };
 
+    var copyVirusSprite = function (destCtx, x, y, frame, dirEnum, scared, flash, eyes_only, color) {
+        if (eyes_only) {
+            copyGhostSprite(destCtx, x, y, frame, dirEnum, scared, flash, eyes_only, color);
+        }
+        var row, col;
+        if (scared) {
+            row = 26;
+            col = flash ? 2 : 0;
+            col += frame;
+        }
+        else {
+            col = dirEnum * 2 + frame;
+            if (color == blinky.color) {
+                row = 22;
+            }
+            else if (color == pinky.color) {
+                row = 23;
+            }
+            else if (color == inky.color) {
+                row = 24;
+            }
+            else if (color == clyde.color) {
+                row = 25;
+            }
+        }
+
+        copyCellTo(row, col, destCtx, x, y);
+    }
+
+    var copyPelletSprite = function (destCtx, x, y) {
+        var row = 27;
+        var col = 0;
+        copyCellTo(row, col, destCtx, x, y);
+    }
+
     var copyOttoSprite = function(destCtx,x,y,dirEnum,frame) {
         var col,row;
         if (dirEnum == DIR_UP) {
@@ -2996,6 +3112,20 @@ var atlas = (function(){
         copyCellTo(row,col,destCtx,x,y);
     };
 
+    var copyCovid19ManSprite = function (destCtx, x, y, dirEnum, frame, ignore, energized) {
+        // for non in game cases show mask all the time
+        // if energized pac man has mask
+        if (energized == undefined || energized == true) {
+            var row = 28;
+            var col = dirEnum * 3 + frame;
+            copyCellTo(row, col, destCtx, x, y);
+        }
+        else {
+            // normal pacman in other cases
+            copyPacmanSprite(destCtx, x, y, dirEnum, frame);
+        }
+    };
+
     var copyMsPacmanSprite = function(destCtx,x,y,dirEnum,frame) {
         // TODO: determine row, col
         //copyCellTo(row,col,destCtx,x,y);
@@ -3010,23 +3140,34 @@ var atlas = (function(){
         copyCellTo(row,col,destCtx,x,y);
     };
 
-    var copyFruitSprite = function(destCtx,x,y,name) {
-        var row = 0;
-        var col = {
-            "cherry": 0,
-            "strawberry": 1,
-            "orange": 2,
-            "apple": 3,
-            "melon": 4,
-            "galaxian": 5,
-            "bell": 6,
-            "key": 7,
-            "pretzel": 8,
-            "pear": 9,
-            "banana": 10,
-            "cookie": 11,
-            "cookieface": 12,
-        }[name];
+    var copyFruitSprite = function (destCtx, x, y, name) {
+        var fruits = {
+            "cherry": [0, 0],
+            "strawberry": [0, 1],
+            "orange": [0, 2],
+            "apple": [0, 3],
+            "melon": [0, 4],
+            "galaxian": [0, 5],
+            "bell": [0, 6],
+            "key": [0, 7],
+            "pretzel": [0, 8],
+            "pear": [0, 9],
+            "banana": [0, 10],
+            "cookie": [0, 11],
+            "cookieface": [0, 12],
+            // covid19 fruits
+            'milk': [21, 0],
+            'rice': [21, 1],
+            'penne': [21, 2],
+            'farfalle': [21, 3],
+            'fusilli': [21, 4],
+            'toilet paper': [21, 5],
+            'toilet roll': [21, 6],
+            'golden roll': [21, 7],
+        };
+
+        var row = fruits[name][0];
+        var col = fruits[name][1];
 
         copyCellTo(row,col,destCtx,x,y);
     };
@@ -3047,6 +3188,9 @@ var atlas = (function(){
         drawPacFruitPoints: copyPacFruitPoints,
         drawMsPacFruitPoints: copyMsPacFruitPoints,
         drawSnail: copySnail,
+        drawCovid19ManSprite: copyCovid19ManSprite,
+        drawVirusSprite: copyVirusSprite,
+        drawPelletSprite: copyPelletSprite,
     };
 })();
 //@line 1 "src/renderers.js"
@@ -3502,13 +3646,13 @@ var initRenderer = function(){
                     this.drawGhost(ghosts[i]);
                 }
                 if (!energizer.showingPoints())
-                    this.drawPlayer();
+                    this.drawPlayer(true);
                 else
                     this.drawEatenPoints();
             }
             // draw such that pacman appears on bottom
             else {
-                this.drawPlayer();
+                this.drawPlayer(false);
                 for (i=3; i>=0; i--) {
                     if (ghosts[i].isVisible) {
                         this.drawGhost(ghosts[i]);
@@ -3823,6 +3967,12 @@ var initRenderer = function(){
                             bgCtx.translate(2*tileSize,0);
                         }
                     }
+                    else if (gameMode == GAME_COVID19) {
+                        for (i = 0; i < lives; i++) {
+                            drawCovid19ManSprite(bgCtx, 0, 0, DIR_RIGHT, 0);
+                            bgCtx.translate(2 * tileSize, 0);
+                        }
+                    }
                     if (extraLives == Infinity) {
                         bgCtx.translate(-4*tileSize,0);
 
@@ -3863,8 +4013,8 @@ var initRenderer = function(){
                 var i,j;
                 var f,drawFunc;
                 var numFruit = 7;
-                var startLevel = Math.max(numFruit,level);
-                if (gameMode != GAME_PACMAN) {
+                var startLevel = Math.max(numFruit, level);
+                if (gameMode != GAME_PACMAN && gameMode != GAME_COVID19) {
                     // for the Pac-Man game, display the last 7 fruit
                     // for the Ms Pac-Man game, display stop after the 7th fruit
                     startLevel = Math.min(numFruit,startLevel);
@@ -3930,7 +4080,7 @@ var initRenderer = function(){
             else if (tile == 'o') {
                 bgCtx.fillStyle = map.pelletColor;
                 bgCtx.beginPath();
-                bgCtx.arc(x*tileSize+midTile.x+0.5,y*tileSize+midTile.y,this.energizerSize/2,0,Math.PI*2);
+                this.drawEnergizerPellet(bgCtx, x * tileSize + midTile.x + 0.5, y * tileSize + midTile.y);
                 bgCtx.fill();
             }
             if (!isTranslated) {
@@ -4003,25 +4153,26 @@ var initRenderer = function(){
         },
 
         // draw pacman
-        drawPlayer: function() {
+        drawPlayer: function (energized) {
             var frame = pacman.getAnimFrame();
             if (pacman.invincible) {
                 ctx.globalAlpha = 0.6;
             }
 
-            var draw = function(pixel, dirEnum, steps) {
+            var draw = function (pixel, dirEnum, steps, energized) {
                 var frame = pacman.getAnimFrame(pacman.getStepFrame(steps));
                 var func = getPlayerDrawFunc();
-                func(ctx, pixel.x, pixel.y, dirEnum, frame, true);
+                func(ctx, pixel.x, pixel.y, dirEnum, frame, true, energized);
             };
 
             vcr.drawHistory(ctx, function(t) {
                 draw(
                     pacman.savedPixel[t],
                     pacman.savedDirEnum[t],
-                    pacman.savedSteps[t]);
+                    pacman.savedSteps[t],
+                    energized);
             });
-            draw(pacman.pixel, pacman.dirEnum, pacman.steps);
+            draw(pacman.pixel, pacman.dirEnum, pacman.steps, energized);
             if (pacman.invincible) {
                 ctx.globalAlpha = 1;
             }
@@ -4081,6 +4232,22 @@ var initRenderer = function(){
                 var angle = Math.floor(t/step)*step*maxAngle;
                 drawCookiemanSprite(ctx, pacman.pixel.x, pacman.pixel.y, pacman.dirEnum, frame, false, angle);
             }
+            else if (gameMode == GAME_COVID19) {
+                // 60 frames dying
+                // 15 frames exploding
+                var f = t * 75;
+                if (f <= 60) {
+                    // open mouth all the way while shifting corner of mouth forward
+                    t = f / 60;
+                    var a = frame * Math.PI / 6;
+                    drawCovid19ManSprite(ctx, pacman.pixel.x, pacman.pixel.y, pacman.dirEnum, a + t * (Math.PI - a), 4 * t);
+                }
+                else {
+                    // explode
+                    f -= 60;
+                    this.drawExplodingPlayer(f / 15);
+                }
+            }
         },
 
         // draw exploding pacman animation (with 0<=t<=1)
@@ -4109,13 +4276,23 @@ var initRenderer = function(){
                     atlas.drawFruitSprite(ctx, fruit.pixel.x, fruit.pixel.y, name);
                 }
                 else if (fruit.isScorePresent()) {
-                    if (gameMode == GAME_PACMAN) {
+                    if (gameMode == GAME_PACMAN || gameMode == GAME_COVID19) {
                         atlas.drawPacFruitPoints(ctx, fruit.pixel.x, fruit.pixel.y, fruit.getPoints());
                     }
                     else {
                         atlas.drawMsPacFruitPoints(ctx, fruit.pixel.x, fruit.pixel.y, fruit.getPoints());
                     }
                 }
+            }
+        },
+
+        // draw energizer
+        drawEnergizerPellet: function (ctx, x, y) {
+            if (gameMode == GAME_COVID19) {
+                atlas.drawPelletSprite(ctx, x, y);
+            }
+            else {
+                ctx.arc(x, y, this.energizerSize / 2, 0, Math.PI * 2);
             }
         },
 
@@ -5093,6 +5270,178 @@ var drawGhostSprite = (function(){
             addScaredFace(ctx, flash);
         else
             addEyes(ctx,dirEnum);
+
+        ctx.restore();
+    };
+})();
+
+var drawVirusSprite = (function () {
+
+    var addBody = function (ctx) {
+        ctx.save();
+
+        // translate by half a pixel to the right
+        // to try to force centering
+        ctx.translate(7.5, 7);
+        ctx.arc(0, 0, 6, 0, 2 * Math.PI);
+
+        ctx.restore();
+    };
+
+    var addExtensions = function (ctx, frame) {
+        ctx.save();
+
+        // translate by half a pixel to the right
+        // to try to force centering
+        ctx.translate(7.5, 7);
+
+        var r1 = 6;
+        var r2 = 7.5;
+        var step = 2 * Math.PI / 8;
+        var offset = 0;
+        if (frame) {
+            offset = step / 2;
+        }
+
+        // large extensions
+        for (var angle = offset; angle < 2 * Math.PI; angle += step) {
+            var s = Math.sin(angle);
+            var c = Math.cos(angle)
+            ctx.moveTo(r1 * s, r1 * c);
+            ctx.lineTo(r2 * s, r2 * c);
+            ctx.save();
+            ctx.translate(r2 * s, r2 * c);
+            ctx.rotate(-angle);
+            ctx.moveTo(-1, 0);
+            ctx.lineTo(1, 0);
+            ctx.restore();
+        }
+
+        ctx.restore();
+    }
+
+    // draw regular ghost eyes
+    var addEyes = function (ctx, dirEnum) {
+        var i;
+
+        ctx.save();
+        ctx.translate(2, 3);
+
+        var coords = [
+            0, 1,
+            1, 0,
+            2, 0,
+            3, 1,
+            3, 3,
+            2, 4,
+            1, 4,
+            0, 3
+        ];
+
+        var drawEyeball = function () {
+            ctx.translate(0.5, 0.5);
+            ctx.beginPath();
+            ctx.moveTo(coords[0], coords[1]);
+            for (i = 2; i < coords.length; i += 2)
+                ctx.lineTo(coords[i], coords[i + 1]);
+            ctx.closePath();
+            ctx.fill();
+            ctx.lineJoin = 'round';
+            ctx.stroke();
+            ctx.translate(-0.5, -0.5);
+            //ctx.fillRect(1,0,2,5); // left
+            //ctx.fillRect(0,1,4,3);
+        };
+
+        // translate eye balls to correct position
+        if (dirEnum == DIR_LEFT) ctx.translate(-1, 0);
+        else if (dirEnum == DIR_RIGHT) ctx.translate(1, 0);
+        else if (dirEnum == DIR_UP) ctx.translate(0, -1);
+        else if (dirEnum == DIR_DOWN) ctx.translate(0, 1);
+
+        // draw eye balls
+        ctx.fillStyle = "#FFF";
+        ctx.strokeStyle = "#FFF";
+        ctx.lineWidth = 1.0;
+        ctx.lineJoin = 'round';
+        drawEyeball();
+        ctx.translate(6, 0);
+        drawEyeball();
+
+        // translate pupils to correct position
+        if (dirEnum == DIR_LEFT) ctx.translate(0, 2);
+        else if (dirEnum == DIR_RIGHT) ctx.translate(2, 2);
+        else if (dirEnum == DIR_UP) ctx.translate(1, 0);
+        else if (dirEnum == DIR_DOWN) ctx.translate(1, 3);
+
+        // draw pupils
+        ctx.fillStyle = "#00F";
+        ctx.fillRect(0, 0, 2, 2); // right
+        ctx.translate(-6, 0);
+        ctx.fillRect(0, 0, 2, 2); // left
+
+        ctx.restore();
+    };
+
+    // draw scared ghost face
+    var addScaredFace = function (ctx, flash) {
+        ctx.strokeStyle = ctx.fillStyle = flash ? "#F00" : "#FF0";
+
+        // eyes
+        ctx.fillRect(4, 5, 2, 2);
+        ctx.fillRect(8, 5, 2, 2);
+
+        // mouth
+        var coords = [
+            1, 10,
+            2, 9,
+            3, 9,
+            4, 10,
+            5, 10,
+            6, 9,
+            7, 9,
+            8, 10,
+            9, 10,
+            10, 9,
+            11, 9,
+            12, 10,
+        ];
+        ctx.translate(0.5, 0.5);
+        ctx.beginPath();
+        ctx.moveTo(coords[0], coords[1]);
+        for (i = 2; i < coords.length; i += 2)
+            ctx.lineTo(coords[i], coords[i + 1]);
+        ctx.lineWidth = 1.0;
+        ctx.stroke();
+        ctx.translate(-0.5, -0.5);
+    };
+
+
+    return function (ctx, x, y, frame, dirEnum, scared, flash, color) {
+        ctx.save();
+        ctx.translate(x - 7, y - 7);
+
+        if (scared)
+            color = flash ? "#FFF" : "#2121ff";
+
+        // draw body
+        ctx.beginPath();
+        addBody(ctx);
+        addExtensions(ctx, frame);
+        ctx.closePath();
+        ctx.lineJoin = 'round';
+        ctx.lineCap = 'round';
+        ctx.lineWidth = 1;
+        ctx.strokeStyle = color;
+        ctx.stroke();
+        ctx.fillStyle = color;
+        ctx.fill();
+
+        // draw face
+        if (scared)
+            addScaredFace(ctx, flash);
+        else
+            addEyes(ctx, dirEnum);
 
         ctx.restore();
     };
@@ -6318,6 +6667,125 @@ var drawPacmanSprite = function(ctx,x,y,dirEnum,angle,mouthShift,scale,centerShi
     ctx.restore();
 };
 
+var drawCovid19ManSprite = function (ctx, x, y, dirEnum, frame, rot_angle) {
+    var angle = 0;
+
+    // draw body
+    if (frame == 0) {
+        // closed
+        drawPacmanSprite(ctx, x, y, dirEnum, 0, undefined, undefined, undefined, undefined, undefined, rot_angle);
+        angle = Math.atan(0.4); // angle for mask drawing
+    }
+    else if (frame == 1) {
+        // open
+        angle = Math.atan(4 / 5);
+        drawPacmanSprite(ctx, x, y, dirEnum, angle, undefined, undefined, undefined, undefined, undefined, rot_angle);
+        angle = Math.atan(0.9); // angle for mask drawing
+    }
+    else if (frame == 2) {
+        // wide
+        angle = Math.atan(6 / 3);
+        drawPacmanSprite(ctx, x, y, dirEnum, angle, undefined, undefined, undefined, undefined, undefined, rot_angle);
+        angle = Math.atan(2.1); // angle for mask drawing
+    }
+
+    ctx.save();
+    ctx.translate(x, y);
+    if (rot_angle) {
+        ctx.rotate(rot_angle);
+    }
+
+    // reflect or rotate sprite according to current direction
+    var d90 = Math.PI / 2;
+    if (dirEnum == DIR_UP)
+        ctx.rotate(-d90);
+    else if (dirEnum == DIR_DOWN)
+        ctx.rotate(d90);
+    else if (dirEnum == DIR_LEFT)
+        ctx.scale(-1, 1);
+
+    // mask
+    var r2 = 7.0;
+    var c = Math.cos(angle);
+    var s = Math.sin(angle);
+    var c_part = Math.cos(angle / 3);
+    var s_part = Math.sin(angle / 3);
+
+    // mask fill
+    ctx.fillStyle = "rgba(0,255,185,0.7)";
+    ctx.beginPath();
+    ctx.moveTo(-4, 0);
+    ctx.lineTo(r2 * c, r2 * s);
+    ctx.lineTo(r2 * c_part, r2 * s_part);
+    ctx.lineTo(r2 * c_part, -r2 * s_part);
+    ctx.lineTo(r2 * c, -r2 * s);
+    ctx.lineTo(-4, 0);
+
+
+    ctx.fill();
+
+    // mask accents
+    ctx.strokeStyle = "#838383";
+    ctx.lineWidth = 0.5;
+    ctx.lineCap = "round";
+    ctx.beginPath();
+    ctx.moveTo(-4, 0);
+    ctx.lineTo(r2 * c, r2 * s);
+    ctx.moveTo(-4, 0);
+    ctx.lineTo(r2 * c_part, r2 * s_part);
+    ctx.moveTo(-4, 0);
+    ctx.lineTo(r2 * c_part, -r2 * s_part);
+    ctx.moveTo(-4, 0);
+    ctx.lineTo(r2 * c, -r2 * s);
+    ctx.stroke();
+
+    ctx.restore();
+};
+
+var drawPelletSprite = function (ctx, x, y) {
+    var angle = Math.atan(2.1); 
+
+    ctx.save();
+    ctx.translate(x, y);
+
+    // mask
+    var r2 = 4.0;
+    var c = Math.cos(angle);
+    var s = Math.sin(angle);
+    var c_part = Math.cos(angle / 3);
+    var s_part = Math.sin(angle / 3);
+
+    // mask fill
+    ctx.fillStyle = "rgba(0,255,185,0.7)";
+    ctx.beginPath();
+    ctx.moveTo(-4, 0);
+    ctx.lineTo(r2 * c, r2 * s);
+    ctx.lineTo(r2 * c_part, r2 * s_part);
+    ctx.lineTo(r2 * c_part, -r2 * s_part);
+    ctx.lineTo(r2 * c, -r2 * s);
+    ctx.lineTo(-4, 0);
+
+
+    ctx.fill();
+
+    // mask accents
+    ctx.strokeStyle = "#838383";
+    ctx.lineWidth = 0.5;
+    ctx.lineCap = "round";
+    ctx.beginPath();
+    ctx.moveTo(-4, 0);
+    ctx.lineTo(r2 * c, r2 * s);
+    ctx.moveTo(-4, 0);
+    ctx.lineTo(r2 * c_part, r2 * s_part);
+    ctx.moveTo(-4, 0);
+    ctx.lineTo(r2 * c_part, -r2 * s_part);
+    ctx.moveTo(-4, 0);
+    ctx.lineTo(r2 * c, -r2 * s);
+    ctx.stroke();
+
+    ctx.restore();
+};
+
 // draw giant pacman body
 var drawGiantPacmanSprite = function(ctx,x,y,dirEnum,frame) {
 
@@ -7375,6 +7843,363 @@ var drawExclamationPoint = function(ctx,x,y) {
     ctx.arc(-2,3,0.5,0,Math.PI*2);
     ctx.fill();
     ctx.stroke();
+
+    ctx.restore();
+};
+
+var drawMilk = function (ctx, x, y) {
+    ctx.save();
+    ctx.translate(x, y);
+
+    ctx.strokeStyle = "#999999"
+    ctx.fillStyle = "#FFF";
+
+    // outside
+    ctx.beginPath();
+    ctx.moveTo(-4, 6);
+    ctx.lineTo(-4, -2);
+    ctx.lineTo(0, -6);
+    ctx.lineTo(0, -7);
+    ctx.lineTo(0, -6);
+    ctx.lineTo(4, -2);
+    ctx.lineTo(4, 6);
+    ctx.lineTo(-4, 6);
+    ctx.closePath();
+
+    ctx.fill();
+    ctx.stroke();
+
+    // lines in the middle
+    ctx.beginPath();
+    ctx.moveTo(-4, -2);
+    ctx.lineTo(4, -2);
+    ctx.closePath();
+
+    ctx.fill();
+    ctx.stroke();
+
+    // "M"
+    ctx.strokeStyle = "#000";
+    ctx.beginPath();
+    ctx.moveTo(-2, 4);
+    ctx.lineTo(-2, 0.5);
+    ctx.lineTo(0, 2);
+    ctx.lineTo(2, 0.5);
+    ctx.lineTo(2, 4);
+
+    ctx.stroke();
+
+    ctx.restore();
+};
+
+var drawRice = function (ctx, x, y) {
+    ctx.save();
+    ctx.translate(x, y);
+
+    // sticks
+    ctx.beginPath();
+    ctx.moveTo(0, 0);
+    ctx.lineTo(3, -8);
+    ctx.lineTo(4, -7.5);
+    ctx.lineTo(0, 0);
+    ctx.closePath();
+    ctx.fillStyle = "#A40";
+    ctx.fill();
+
+    ctx.beginPath();
+    ctx.moveTo(2, 0);
+    ctx.lineTo(5, -7.0);
+    ctx.lineTo(6, -6.5);
+    ctx.lineTo(2, 0);
+    ctx.closePath();
+    ctx.fillStyle = "#A40";
+    ctx.fill();
+
+    // bowl
+    ctx.beginPath();
+    ctx.moveTo(-6, 0);
+    ctx.arc(0, 0, 6, 0, Math.PI);
+    ctx.closePath();
+
+    ctx.strokeStyle = "#999999"
+    ctx.fillStyle = "#00b1ff";
+    ctx.stroke();
+    ctx.fill();
+
+    // plate
+    ctx.beginPath();
+    ctx.rect(-5, 5, 10, 1);
+    ctx.strokeStyle = "#999999"
+    ctx.fillStyle = "#999999";
+    ctx.stroke();
+    ctx.fill();
+
+    // rice
+    ctx.beginPath();
+    ctx.moveTo(-5.5, 0);
+    ctx.quadraticCurveTo(-4.75, -3, -4.0, -2);
+    ctx.quadraticCurveTo(-3.25, -4, -2.5, -3);
+    ctx.quadraticCurveTo(-1.75, -5, -1.0, -4);
+    ctx.quadraticCurveTo(0, -6, 1.0, -4);
+    ctx.quadraticCurveTo(1.75, -5, 2.5, -3);
+    ctx.quadraticCurveTo(3.25, -4, 4.0, -2);
+    ctx.quadraticCurveTo(4.75, -3, 5.5, 0);
+    ctx.closePath();
+    ctx.fillStyle = "#FFF";
+    ctx.fill();
+
+    ctx.restore();
+};
+
+var drawPenne = function (ctx, x, y) {
+    ctx.save();
+    ctx.translate(x, y);
+    ctx.rotate(-Math.PI / 6);
+
+    ctx.beginPath();
+    ctx.ellipse(-5, 0, 2, 4, Math.PI / 6, Math.PI / 2, -Math.PI / 2);
+    ctx.ellipse(5, 0, 2, 4, Math.PI / 6, -Math.PI / 2, Math.PI / 2);
+    ctx.ellipse(-5, 0, 2, 4, Math.PI / 6, Math.PI / 2, -Math.PI / 2);
+    ctx.fillStyle = "#c37600";
+    ctx.strokeStyle = "#fffa37";
+    ctx.fill();
+    ctx.stroke();
+
+    ctx.beginPath();
+    ctx.ellipse(-5, 0, 2, 4, Math.PI / 6, Math.PI / 2, -Math.PI / 2, true);
+    ctx.strokeStyle = "#fffa37";
+    ctx.stroke();
+
+    // use ellipse to easily get the start and end points of the line
+    ctx.beginPath();
+    ctx.ellipse(-5, 0, 2, 4, Math.PI / 6, -Math.PI / 4, -Math.PI / 4);
+    ctx.ellipse(5, 0, 2, 4, Math.PI / 6, -Math.PI / 4, -Math.PI / 4);
+    ctx.setLineDash([2, 1]);
+    ctx.strokeStyle = "#fffa37";
+    ctx.lineWidth = 0.7;
+    ctx.stroke();
+
+    ctx.beginPath();
+    ctx.ellipse(-5, 0, 2, 4, Math.PI / 6, -Math.PI / 12, -Math.PI / 12);
+    ctx.ellipse(5, 0, 2, 4, Math.PI / 6, -Math.PI / 12, -Math.PI / 12);
+    ctx.setLineDash([2, 1]);
+    ctx.strokeStyle = "#fffa37";
+    ctx.lineDashOffset = 1;
+    ctx.lineWidth = 0.7;
+    ctx.stroke();
+
+    ctx.beginPath();
+    ctx.ellipse(-5, 0, 2, 4, Math.PI / 6, Math.PI / 10, Math.PI / 10);
+    ctx.ellipse(5, 0, 2, 4, Math.PI / 6, Math.PI / 10, Math.PI / 10);
+    ctx.setLineDash([2, 1]);
+    ctx.strokeStyle = "#fffa37";
+    ctx.lineDashOffset = 1;
+    ctx.lineWidth = 0.7;
+    ctx.stroke();
+
+    ctx.restore();
+};
+
+var drawFarfalle = function (ctx, x, y) {
+    ctx.save();
+    ctx.translate(x, y);
+    ctx.rotate(-Math.PI / 6);
+
+    // base
+    ctx.beginPath();
+    ctx.moveTo(0, -1);
+    ctx.bezierCurveTo(-2, -1, -1, -5, -5, -5);
+
+    ctx.quadraticCurveTo(-10, -4, -5.5, -3);
+    ctx.quadraticCurveTo(-10, -2, -6, -1);
+    ctx.quadraticCurveTo(-10, 0, -6, 1);
+    ctx.quadraticCurveTo(-10, 2, -5.5, 3);
+    ctx.quadraticCurveTo(-10, 4, -5, 5);
+
+    ctx.bezierCurveTo(-1, 5, -2, 1, 0, 1);
+    ctx.bezierCurveTo(2, 1, 1, 5, 5, 5);
+
+    ctx.quadraticCurveTo(10, 4, 5.5, 3);
+    ctx.quadraticCurveTo(10, 2, 6, 1);
+    ctx.quadraticCurveTo(10, 0, 6, -1);
+    ctx.quadraticCurveTo(10, -2, 5.5, -3);
+    ctx.quadraticCurveTo(10, -4, 5, -5);
+
+    ctx.bezierCurveTo(1, -5, 2, -1, 0, -1);
+    ctx.strokeStyle = ctx.fillStyle = "#fffa37";
+    ctx.stroke();
+    ctx.fill();
+
+    // accent lines
+    ctx.beginPath();
+    ctx.moveTo(-5, 3);
+    ctx.quadraticCurveTo(0, -2, 5, 3);
+    ctx.moveTo(-5, -3);
+    ctx.quadraticCurveTo(0, 2, 5, -3);
+    ctx.strokeStyle = "#c37600";
+    ctx.lineWidth = 0.7;
+    ctx.lineCap = "round";
+    ctx.stroke();
+
+    ctx.restore();
+};
+
+var drawFusilli = function (ctx, x, y) {
+    ctx.save();
+    ctx.translate(x, y);
+    ctx.rotate(-Math.PI / 4);
+
+    ctx.beginPath();
+    ctx.fillStyle = "#c37600";
+    ctx.fill();
+    ctx.fillRect(-8, -1.5, 16, 3);
+
+    ctx.beginPath();
+
+    var singleSegment = function (x, y) {
+        ctx.moveTo(x-3, y-1.5);
+        ctx.bezierCurveTo(x-1, y-2, x-0.5, y-1.5, x+0, y+0);
+        ctx.bezierCurveTo(x+0.5, y+1.5, x+1, y+2, x+3, y+1.5);
+    };
+
+    ctx.moveTo(-5.4, 1.5);
+    ctx.bezierCurveTo(-12, 2, -5, 1.5, -5.6-3, -1.5);
+
+    singleSegment(-5.6, 0);
+    singleSegment(-2.8, 0);
+    singleSegment(0, 0);
+    singleSegment(2.8, 0);
+    singleSegment(5.6, 0);
+
+    ctx.moveTo(5.4, -1.5);
+    ctx.bezierCurveTo(12, -2, 5, -1.5, 5.6 + 3, 1.5);
+
+    ctx.strokeStyle = "#fffa37";
+    ctx.stroke();
+
+    ctx.restore();
+};
+
+var drawToiletPaper = function (ctx, x, y) {
+    ctx.save();
+    ctx.translate(x, y);
+    ctx.rotate(-Math.PI / 3);
+
+    ctx.beginPath();
+    ctx.moveTo(-6, -5);
+    ctx.lineTo(-6, 2);
+    ctx.bezierCurveTo(0, 2, 0, 5, 6, 5);
+    ctx.lineTo(6, -2);
+    ctx.bezierCurveTo(0, -2, 0, -5, -6, -5);
+    ctx.closePath();
+    ctx.strokeStyle = "#FFF";
+    ctx.fillStyle = "#FFF";
+    ctx.fill();
+    ctx.stroke();
+
+    ctx.beginPath();
+    ctx.moveTo(0, -5);
+    ctx.lineTo(0, 5);
+    ctx.setLineDash([1, 1]);
+    ctx.lineWidth = 0.7;
+    ctx.strokeStyle = "#000";
+    ctx.stroke();
+
+    ctx.restore();
+};
+
+var drawToiletRoll = function (ctx, x, y, fillColor) {
+    ctx.save();
+    ctx.translate(x, y);
+    //ctx.rotate(-Math.PI / 6);
+
+    ctx.beginPath();
+    ctx.moveTo(0, -3);
+
+    var radiusStep = 0.035;
+    // make a complete circle every 50 iterations
+    var ierationsPerCircle = 50;
+    var angleStep = (Math.PI * 2) / ierationsPerCircle;
+    var totalIterations = 160;
+
+    var radius = 0;
+    var angle = 0;
+
+    // bottom
+    ctx.beginPath();
+    radius = (totalIterations + 1) * radiusStep;
+    angle = (totalIterations + 1) * angleStep;
+    var max_x = -1000;
+    var min_x = 1000
+    for (var n = totalIterations; n > (totalIterations - ierationsPerCircle); n--) {
+        radius -= radiusStep;
+        angle -= angleStep;
+        var x = radius * Math.cos(angle);
+        var y = radius * Math.sin(angle) * 0.5 + 3;
+        ctx.lineTo(x, y);
+        max_x = Math.max(max_x, x);
+        min_x = Math.min(min_x, x);
+    }
+    ctx.lineWidth = 0.5;
+    ctx.strokeStyle = "#000";
+    ctx.fillStyle = fillColor;
+    ctx.fill();
+    ctx.stroke();
+
+    // middle
+    ctx.beginPath();
+    ctx.strokeStyle = "#000";
+    ctx.fillStyle = fillColor;
+    ctx.fillRect(min_x, -3, max_x - min_x, 6);
+
+    // top
+    ctx.beginPath();
+    radius = 0;
+    angle = 0;
+    for (var n = 0; n < totalIterations; n++) {
+        radius += radiusStep;
+        angle += angleStep;
+        var x = radius * Math.cos(angle);
+        var y = radius * Math.sin(angle) * 0.5 - 3;
+        ctx.lineTo(x, y);
+    }
+    ctx.lineWidth = 0.5;
+    ctx.strokeStyle = "#000";
+    ctx.fillStyle = fillColor;
+    ctx.fill();
+    ctx.stroke();
+
+    // middle hole
+    ctx.beginPath();
+    ctx.ellipse(0, -3, 1.5, 0.75, 0, 0, 2 * Math.PI);
+    ctx.fillStyle = "#000";
+    ctx.fill();
+
+    // end of roll
+    ctx.beginPath();
+    ctx.moveTo(radiusStep * totalIterations * Math.cos(angleStep * totalIterations), radiusStep * totalIterations * Math.sin(angleStep * totalIterations) * 0.5 - 3);
+    ctx.lineTo(radiusStep * totalIterations * Math.cos(angleStep * totalIterations), radiusStep * totalIterations * Math.sin(angleStep * totalIterations) * 0.5 + 3);
+    ctx.lineWidth = 0.5;
+    ctx.strokeStyle = "#000";
+    ctx.stroke();
+
+    // perforation
+    var iterationCountPerforation = totalIterations - 43;
+    ctx.beginPath();
+    ctx.moveTo(radiusStep * iterationCountPerforation * Math.cos(angleStep * iterationCountPerforation), radiusStep * iterationCountPerforation * Math.sin(angleStep * iterationCountPerforation) * 0.5 - 3);
+    ctx.lineTo(radiusStep * iterationCountPerforation * Math.cos(angleStep * iterationCountPerforation), radiusStep * iterationCountPerforation * Math.sin(angleStep * iterationCountPerforation) * 0.5 + 3);
+    ctx.lineWidth = 0.5;
+    ctx.setLineDash([1, 1]);
+    ctx.strokeStyle = "#000";
+    ctx.stroke();
+
+    ctx.restore();
+};
+
+var drawGoldenToiletRoll = function (ctx, x, y) {
+    ctx.save();
+    ctx.translate(x, y);
+    ctx.rotate(-Math.PI / 6);
 
     ctx.restore();
 };
@@ -8617,7 +9442,7 @@ var ghostCommander = (function() {
                 i = 2;
             var newCmd = times[i][frame];
 
-            if (gameMode == GAME_PACMAN) {
+            if (gameMode == GAME_PACMAN || gameMode == GAME_COVID19) {
                 return newCmd;
             }
             else if (frame <= 27*60) { // only revearse twice in Ms. Pac-Man (two happen in first 27 seconds)
@@ -9169,6 +9994,25 @@ PacFruit.prototype = newChildObject(BaseFruit.prototype, {
     },
 });
 
+
+var Covid19Fruit = function () {
+    PacFruit.call(this);
+    this.fruits = [
+        { name: 'milk', points: 100 },
+        { name: 'rice', points: 300 },
+        { name: 'penne', points: 500 },
+        { name: 'farfalle', points: 700 },
+        { name: 'fusilli', points: 1000 },
+        { name: 'toilet paper', points: 2000 },
+        { name: 'toilet roll', points: 3000 },
+        { name: 'golden roll', points: 5000 },
+    ];
+};
+
+Covid19Fruit.prototype = newChildObject(PacFruit.prototype, {
+
+});
+
 // MS. PAC-MAN FRUIT
 
 var PATH_ENTER = 0;
@@ -9346,10 +10190,14 @@ var fruit;
 var setFruitFromGameMode = (function() {
     var pacfruit = new PacFruit();
     var mspacfruit = new MsPacFruit();
+    var covid19fruit = new Covid19Fruit();
     fruit = pacfruit;
     return function() {
         if (gameMode == GAME_PACMAN) {
             fruit = pacfruit;
+        }
+        else if (gameMode == GAME_COVID19) {
+            fruit = covid19fruit;
         }
         else {
             fruit = mspacfruit;
@@ -9628,6 +10476,14 @@ var homeState = (function(){
         function(ctx,x,y,frame) {
             drawCookiemanSprite(ctx,x,y,DIR_RIGHT,getIconAnimFrame(frame), true);
         });
+    menu.addTextIconButton(getGameName(GAME_COVID19),
+        function () {
+            gameMode = GAME_COVID19;
+            exitTo(preNewGameState);
+        },
+        function (ctx, x, y, frame) {
+            atlas.drawCovid19ManSprite(ctx, x, y, DIR_RIGHT, getIconAnimFrame(frame));
+        });
 
     menu.addSpacer(0.5);
     menu.addTextIconButton("LEARN",
@@ -9864,7 +10720,7 @@ var gameTitleState = (function() {
         }
     });
     yellowBtn.setIcon(function (ctx,x,y,frame) {
-        getPlayerDrawFunc()(ctx,x,y,DIR_RIGHT,pacman.getAnimFrame(pacman.getStepFrame(Math.floor((gameMode==GAME_PACMAN?frame+4:frame)/1.5))),true);
+        getPlayerDrawFunc()(ctx,x,y,DIR_RIGHT,pacman.getAnimFrame(pacman.getStepFrame(Math.floor(((gameMode==GAME_PACMAN||gameMode==GAME_COVID19)?frame+4:frame)/1.5))),true);
     });
 
     x += 2*w;
@@ -10743,7 +11599,7 @@ var readyNewState = newChildObject(readyState, {
 
         // increment level and ready the next map
         level++;
-        if (gameMode == GAME_PACMAN) {
+        if (gameMode == GAME_PACMAN || gameMode == GAME_COVID19) {
             map = mapPacman;
         }
         else if (gameMode == GAME_MSPACMAN || gameMode == GAME_OTTO) {
@@ -12492,11 +13348,128 @@ var cookieCutscene2 = (function() {
     }); // returned object
 })(); // mspacCutscene1
 
+var covid19Cutscene1 = newChildObject(scriptState, {
+    init: function() {
+        scriptState.init.call(this);
+
+        // initialize actor positions
+        pacman.setPos(232, 164);
+        blinky.setPos(257, 164);
+
+        // initialize actor directions
+        blinky.setDir(DIR_LEFT);
+        blinky.faceDirEnum = DIR_LEFT;
+        pacman.setDir(DIR_LEFT);
+
+        // initialize misc actor properties
+        blinky.scared = false;
+        blinky.mode = GHOST_OUTSIDE;
+
+        // clear other states
+        backupCheats();
+        clearCheats();
+        energizer.reset();
+
+        // temporarily override actor step sizes
+        pacman.getNumSteps = function() {
+            return Actor.prototype.getStepSizeFromTable.call(this, 5, STEP_PACMAN);
+        };
+        blinky.getNumSteps = function() {
+            return Actor.prototype.getStepSizeFromTable.call(this, 5, STEP_ELROY2);
+        };
+
+        // temporarily override steering functions
+        pacman.steer = blinky.steer = function(){};
+    },
+    triggers: {
+
+        // Blinky chases Pac-Man
+        0: {
+            update: function() {
+                var j;
+                for (j=0; j<2; j++) {
+                    pacman.update(j);
+                    blinky.update(j);
+                }
+                pacman.frames++;
+                blinky.frames++;
+            },
+            draw: function() {
+                renderer.blitMap();
+                renderer.beginMapClip();
+                renderer.drawPlayer(false);
+                renderer.drawGhost(blinky);
+                renderer.endMapClip();
+            },
+        },
+
+        // Pac-Man chases Blinky
+        260: {
+            init: function() {
+                pacman.setPos(-193, 164);
+                blinky.setPos(-8, 164);
+
+                // initialize actor directions
+                blinky.setDir(DIR_RIGHT);
+                blinky.faceDirEnum = DIR_RIGHT;
+                pacman.setDir(DIR_RIGHT);
+
+                // initialize misc actor properties
+                blinky.scared = true;
+
+                // temporarily override step sizes
+                pacman.getNumSteps = function() {
+                    return Actor.prototype.getStepSizeFromTable.call(this, 5, STEP_PACMAN_FRIGHT);
+                };
+                blinky.getNumSteps = function() {
+                    return Actor.prototype.getStepSizeFromTable.call(this, 5, STEP_GHOST_FRIGHT);
+                };
+            },
+            update: function() {
+                var j;
+                for (j=0; j<2; j++) {
+                    pacman.update(j);
+                    blinky.update(j);
+                }
+                pacman.frames++;
+                blinky.frames++;
+            },
+            draw: function() {
+                renderer.blitMap();
+                renderer.beginMapClip();
+                renderer.drawGhost(blinky);
+                renderer.drawPlayer(true);
+                renderer.endMapClip();
+            },
+        },
+
+        // end
+        640: {
+            init: function() {
+                // disable custom steps
+                delete pacman.getNumSteps;
+                delete blinky.getNumSteps;
+
+                // disable custom steering
+                delete pacman.steer;
+                delete blinky.steer;
+
+                // exit to next level
+                restoreCheats();
+                switchState(pacmanCutscene1.nextState, 60);
+            },
+        },
+    },
+});
+
+
+
 var cutscenes = [
     [pacmanCutscene1], // GAME_PACMAN
     [mspacmanCutscene1, mspacmanCutscene2], // GAME_MSPACMAN
     [cookieCutscene1, cookieCutscene2], // GAME_COOKIE
     [mspacmanCutscene1, mspacmanCutscene2], // GAME_OTTO
+    [covid19Cutscene1], // GAME_COVID19
 ];
 
 var isInCutScene = function() {
@@ -12545,6 +13518,12 @@ var triggerCutsceneAtEndLevel = function() {
         }
         else if (level == 5) {
             playCutScene(cookieCutscene2, readyNewState);
+            return true;
+        }
+    }
+    else if (gameMode == GAME_COVID19) {
+        if (level == 2) {
+            playCutScene(coronaCutscene1, readyNewState);
             return true;
         }
     }
@@ -12738,7 +13717,7 @@ var getLevelAct = function(level) {
 };
 
 var getActColor = function(act) {
-    if (gameMode == GAME_PACMAN) {
+    if (gameMode == GAME_PACMAN || gameMode == GAME_COVID19) {
         return {
             wallFillColor: mapPacman.wallFillColor,
             wallStrokeColor: mapPacman.wallStrokeColor,
