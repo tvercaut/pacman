@@ -5016,6 +5016,17 @@ var inGameMenu = (function() {
 // Sprites
 // (sprites are created using canvas paths)
 
+var imgsprites = new preloadImgSprites();
+
+function preloadImgSprites() {
+
+    this.astereOpen        = new Image(512,512);
+    this.astereOpen.src    = 'images/astere-open.png';
+    this.astereClosed      = new Image(512,512);
+    this.astereClosed.src  = 'images/astere-closed.png';
+	
+}
+
 var drawGhostSprite = (function(){
 
     // add top of the ghost head to the current canvas path
@@ -6649,20 +6660,30 @@ var drawPacmanSprite = function(ctx,x,y,dirEnum,angle,mouthShift,scale,centerShi
     if (dirEnum == DIR_UP) ctx.rotate(3*d90);
     else if (dirEnum == DIR_RIGHT) ctx.rotate(0);
     else if (dirEnum == DIR_DOWN) ctx.rotate(d90);
-    else if (dirEnum == DIR_LEFT) ctx.rotate(2*d90);
+    else if (dirEnum == DIR_LEFT) {
+	//ctx.rotate(2*d90);
+	ctx.scale(-1, 1);
+    }
 
     // plant corner of mouth
-    ctx.beginPath();
-    ctx.moveTo(-3+mouthShift,0);
+    //ctx.beginPath();
+    //ctx.moveTo(-3+mouthShift,0);
 
     // draw head outline
-    ctx.arc(centerShift,0,6.5,angle,2*Math.PI-angle);
-    ctx.closePath();
+    //ctx.arc(centerShift,0,6.5,angle,2*Math.PI-angle);
+    //ctx.closePath();
 
     //ctx.strokeStyle = color;
     //ctx.stroke();
-    ctx.fillStyle = color;
-    ctx.fill();
+    //ctx.fillStyle = color;
+    //ctx.fill();
+
+    if (angle == 0.0) {
+	ctx.drawImage(imgsprites.astereOpen, -6.5, -6.5, 13, 13);
+    }
+    else {
+	ctx.drawImage(imgsprites.astereClosed, -6.5, -6.5, 13, 13);
+    }
 
     ctx.restore();
 };
