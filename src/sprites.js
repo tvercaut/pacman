@@ -1622,17 +1622,8 @@ var drawDeadOttoSprite = function(ctx,x,y) {
     drawOttoSprite(ctx,x,y,DIR_LEFT,2,Math.PI/2);
 };
 
-// draw pacman body
-var drawPacmanSprite = function(ctx,x,y,dirEnum,angle,mouthShift,scale,centerShift,alpha,color,rot_angle) {
-
-    if (mouthShift == undefined) mouthShift = 0;
-    if (centerShift == undefined) centerShift = 0;
-    if (scale == undefined) scale = 1;
-    if (alpha == undefined) alpha = 1;
-
-    if (color == undefined) {
-        color = "rgba(255,255,0," + alpha + ")";
-    }
+// Prepare sprite
+var prepareSprite = function(ctx,x,y,dirEnum,angle,mouthShift,scale,centerShift,alpha,color,rot_angle) {
 
     ctx.save();
     ctx.translate(x,y);
@@ -1650,49 +1641,79 @@ var drawPacmanSprite = function(ctx,x,y,dirEnum,angle,mouthShift,scale,centerShi
 	//ctx.rotate(2*d90);
 	ctx.scale(-1, 1);
     }
+}
+
+// draw pacman body
+var drawPacmanSprite = function(ctx,x,y,dirEnum,angle,mouthShift,scale,centerShift,alpha,color,rot_angle) {
+
+    if (mouthShift == undefined) mouthShift = 0;
+    if (centerShift == undefined) centerShift = 0;
+    if (scale == undefined) scale = 1;
+    if (alpha == undefined) alpha = 1;
+
+    if (color == undefined) {
+        color = "rgba(255,255,0," + alpha + ")";
+    }
+    
+    prepareSprite(ctx,x,y,dirEnum,angle,mouthShift,scale,centerShift,alpha,color,rot_angle);
 
     // plant corner of mouth
-    //ctx.beginPath();
-    //ctx.moveTo(-3+mouthShift,0);
+    ctx.beginPath();
+    ctx.moveTo(-3+mouthShift,0);
 
     // draw head outline
-    //ctx.arc(centerShift,0,6.5,angle,2*Math.PI-angle);
-    //ctx.closePath();
+    ctx.arc(centerShift,0,6.5,angle,2*Math.PI-angle);
+    ctx.closePath();
 
-    //ctx.strokeStyle = color;
-    //ctx.stroke();
-    //ctx.fillStyle = color;
-    //ctx.fill();
+    ctx.fillStyle = color;
+    ctx.fill();
+
+    ctx.restore();
+};
+
+// draw pacman body
+var drawAstereSprite = function(ctx,x,y,dirEnum,angle,mouthShift,scale,centerShift,alpha,color,rot_angle) {
+
+    if (mouthShift == undefined) mouthShift = 0;
+    if (centerShift == undefined) centerShift = 0;
+    if (scale == undefined) scale = 1;
+    if (alpha == undefined) alpha = 1;
+
+    if (color == undefined) {
+        color = "rgba(255,255,0," + alpha + ")";
+    }
+    
+    prepareSprite(ctx,x,y,dirEnum,angle,mouthShift,scale,centerShift,alpha,color,rot_angle);
 
     if (angle == 0.0) {
 	ctx.drawImage(imgsprites.astereOpen, -6.5, -6.5, 13, 13);
     }
     else {
-	ctx.drawImage(imgsprites.astereClosed, -6.5, -6.5, 13, 13);
+        ctx.drawImage(imgsprites.astereClosed, -6.5, -6.5, 13, 13);
     }
 
     ctx.restore();
 };
 
-var drawCovid19ManSprite = function (ctx, x, y, dirEnum, frame, rot_angle) {
+var drawCovid19AstereSprite = function (ctx, x, y, dirEnum, frame, rot_angle) {
     var angle = 0;
 
     // draw body
     if (frame == 0) {
         // closed
-        drawPacmanSprite(ctx, x, y, dirEnum, 0, undefined, undefined, undefined, undefined, undefined, rot_angle);
+        drawAstereSprite(ctx, x, y, dirEnum, 0, undefined, undefined, undefined, undefined, undefined, rot_angle);
         angle = Math.atan(0.4); // angle for mask drawing
     }
     else if (frame == 1) {
         // open
         angle = Math.atan(4 / 5);
-        drawPacmanSprite(ctx, x, y, dirEnum, angle, undefined, undefined, undefined, undefined, undefined, rot_angle);
+        drawAstereSprite(ctx, x, y, dirEnum, angle, undefined, undefined, undefined, undefined, undefined, rot_angle);
         angle = Math.atan(0.9); // angle for mask drawing
     }
     else if (frame == 2) {
         // wide
         angle = Math.atan(6 / 3);
-        drawPacmanSprite(ctx, x, y, dirEnum, angle, undefined, undefined, undefined, undefined, undefined, rot_angle);
+        drawAstereSprite(ctx, x, y, dirEnum, angle, undefined, undefined, undefined, undefined, undefined, rot_angle);
         angle = Math.atan(2.1); // angle for mask drawing
     }
 

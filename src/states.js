@@ -88,7 +88,7 @@ var homeState = (function(){
         menu.disable();
     };
 
-    var menu = new Menu("CHOOSE A GAME",2*tileSize,0*tileSize,mapWidth-4*tileSize,3*tileSize,tileSize,tileSize+"px ArcadeR", "#EEE");
+    var menu = new Menu("CHOOSE A DODUS",2*tileSize,0*tileSize,mapWidth-4*tileSize,3*tileSize,tileSize,tileSize+"px ArcadeR", "#EEE");
     var getIconAnimFrame = function(frame) {
         frame = Math.floor(frame/3)+1;
         frame %= 4;
@@ -109,6 +109,7 @@ var homeState = (function(){
         },
         function(ctx,x,y,frame) {
             atlas.drawPacmanSprite(ctx,x,y,DIR_RIGHT,getIconAnimFrame(frame));
+	    //drawTomSprite(ctx,x,y,DIR_RIGHT,getIconAnimFrame(frame));
         });
     menu.addTextIconButton(getGameName(GAME_MSPACMAN),
         function() {
@@ -132,7 +133,7 @@ var homeState = (function(){
             exitTo(preNewGameState);
         },
         function (ctx, x, y, frame) {
-            atlas.drawCovid19ManSprite(ctx, x, y, DIR_RIGHT, getIconAnimFrame(frame));
+            atlas.drawCovid19AstereSprite(ctx, x, y, DIR_RIGHT, getIconAnimFrame(frame));
         });
 
     menu.addSpacer(0.5);
@@ -142,6 +143,10 @@ var homeState = (function(){
         },
         function(ctx,x,y,frame) {
             atlas.drawGhostSprite(ctx,x,y,Math.floor(frame/8)%2,DIR_RIGHT,false,false,false,blinky.color);
+        });
+    menu.addTextButton("ABOUT",
+        function() { 
+            exitTo(aboutGameState);
         });
 
     return {

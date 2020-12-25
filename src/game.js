@@ -15,7 +15,7 @@ var turboMode = false;
 var gameMode = GAME_PACMAN;
 var getGameName = (function(){
 
-    var names = ["PAC-MAN", "MS PAC-MAN", "COOKIE-MAN","CRAZY OTTO","COVID-19"];
+    var names = ["PAC-MAN", "MS PAC-MAN", "COOKIE-MAN","CRAZY OTTO","ASTERE"];
     
     return function(mode) {
         if (mode == undefined) {
@@ -27,7 +27,7 @@ var getGameName = (function(){
 
 var getGameDescription = (function(){
 
-    var desc = [
+    /*var desc = [
         [
             "ORIGINAL ARCADE:",
             "NAMCO (C) 1980",
@@ -85,17 +85,31 @@ var getGameDescription = (function(){
             "MKBIT",
         ],
     ];
+    */
+    desc = [
+            "ORIGINAL ARCADE:",
+            "NAMCO (C) 1980",
+            "REVERSE-ENGINEERING:",
+            "JAMEY PITTMAN",
+            "REMAKE:",
+            "SHAUN WILLIAMS",
+            "COVID-19 MOD:",
+            "MKBIT",
+            "LES DODUS HAPPY 2021 MOD:",
+            "LES DODUS",
+    ];
     
     return function(mode) {
         if (mode == undefined) {
             mode = gameMode;
         }
-        return desc[mode];
+        //return desc[mode];
+	return desc;
     };
 })();
 
 var getGhostNames = function(mode) {
-    if (mode == undefined) {
+    /*if (mode == undefined) {
         mode = gameMode;
     }
     if (mode == GAME_OTTO) {
@@ -112,11 +126,12 @@ var getGhostNames = function(mode) {
     }
     else if (mode == GAME_COVID19) {
         return ["wuhan", "lockdown", "cough", "fever"];
-    }
+	}*/
+    return ["wuhan", "lockdown", "cough", "fever"];
 };
 
 var getGhostDrawFunc = function(mode) {
-    if (mode == undefined) {
+    /*if (mode == undefined) {
         mode = gameMode;
     }
     if (mode == GAME_OTTO) {
@@ -130,7 +145,8 @@ var getGhostDrawFunc = function(mode) {
     }
     else {
         return atlas.drawGhostSprite;
-    }
+	}*/
+    return atlas.drawVirusSprite;
 };
 
 var getPlayerDrawFunc = function(mode) {
@@ -147,11 +163,10 @@ var getPlayerDrawFunc = function(mode) {
         return atlas.drawMsPacmanSprite;
     }
     else if (mode == GAME_COOKIE) {
-        //return atlas.drawCookiemanSprite;
-        return drawCookiemanSprite;
+        return atlas.drawCookiemanSprite;
     }
     else if (mode == GAME_COVID19) {
-        return atlas.drawCovid19ManSprite;
+        return atlas.drawCovid19AstereSprite;
     }
 };
 

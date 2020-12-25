@@ -773,7 +773,7 @@ var initRenderer = function(){
                     }
                     else if (gameMode == GAME_COVID19) {
                         for (i = 0; i < lives; i++) {
-                            drawCovid19ManSprite(bgCtx, 0, 0, DIR_RIGHT, 0);
+                            drawCovid19AstereSprite(bgCtx, 0, 0, DIR_RIGHT, 0);
                             bgCtx.translate(2 * tileSize, 0);
                         }
                     }
@@ -1044,7 +1044,7 @@ var initRenderer = function(){
                     // open mouth all the way while shifting corner of mouth forward
                     t = f / 60;
                     var a = frame * Math.PI / 6;
-                    drawCovid19ManSprite(ctx, pacman.pixel.x, pacman.pixel.y, pacman.dirEnum, a + t * (Math.PI - a), 4 * t);
+                    drawCovid19AstereSprite(ctx, pacman.pixel.x, pacman.pixel.y, pacman.dirEnum, a + t * (Math.PI - a), 4 * t);
                 }
                 else {
                     // explode

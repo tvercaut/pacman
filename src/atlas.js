@@ -138,6 +138,27 @@ var atlas = (function(){
             }
         })();
 
+	/*
+	var drawAstereCells = function(row,col,dir) {
+            drawAtCell(function(x,y) { drawAstereSprite(ctx, x,y, dir, Math.PI/6); }, row, col);
+            drawAtCell(function(x,y) { drawAstereSprite(ctx, x,y, dir, Math.PI/3); }, row, col+1);
+        };
+        row++;
+
+        // draw astere mouth closed
+        drawAtCell(function(x,y) { drawAstereSprite(ctx, x,y, DIR_RIGHT, 0); }, row, 0);
+
+        // draw astere directions
+        (function(){
+            var i;
+            var col=1;
+            for (i=0; i<4; i++) {
+                drawAstereCells(row,col,i);
+                col+=2;
+            }
+        })();
+	*/
+
         var drawMsPacCells = function(row,col,dir) {
             drawAtCell(function(x,y) { drawMsPacmanSprite(ctx, x,y, dir, 0); }, row, col);
             drawAtCell(function(x,y) { drawMsPacmanSprite(ctx, x,y, dir, 1); }, row, col+1);
@@ -305,16 +326,16 @@ var atlas = (function(){
 
         // draw pacman immune
         row++;
-        var drawCovid19ManCells = function (row, col, dir) {
-            drawAtCell(function (x, y) { drawCovid19ManSprite(ctx, x, y, dir, 0); }, row, col);
-            drawAtCell(function (x, y) { drawCovid19ManSprite(ctx, x, y, dir, 1); }, row, col + 1);
-            drawAtCell(function (x, y) { drawCovid19ManSprite(ctx, x, y, dir, 2); }, row, col + 2);
+        var drawCovid19AstereCells = function (row, col, dir) {
+            drawAtCell(function (x, y) { drawCovid19AstereSprite(ctx, x, y, dir, 0); }, row, col);
+            drawAtCell(function (x, y) { drawCovid19AstereSprite(ctx, x, y, dir, 1); }, row, col + 1);
+            drawAtCell(function (x, y) { drawCovid19AstereSprite(ctx, x, y, dir, 2); }, row, col + 2);
         };
         (function () {
             var i;
             var col = 0;
             for (i = 0; i < 4; i++) {
-                drawCovid19ManCells(row, col, i);
+                drawCovid19AstereCells(row, col, i);
                 col += 3;
             }
         })();
@@ -559,7 +580,19 @@ var atlas = (function(){
         copyCellTo(row,col,destCtx,x,y);
     };
 
-    var copyCovid19ManSprite = function (destCtx, x, y, dirEnum, frame, ignore, energized) {
+    /*var copyAstereSprite = function(destCtx,x,y,dirEnum,frame) {
+        var row = 6;
+        var col;
+        if (frame == 0) {
+            col = 0;
+        }
+        else {
+           col = dirEnum*2+1+(frame-1);
+        }
+        copyCellTo(row,col,destCtx,x,y);
+    };*/
+
+    var copyCovid19AstereSprite = function (destCtx, x, y, dirEnum, frame, ignore, energized) {
         // for non in game cases show mask all the time
         // if energized pac man has mask
         if (energized == undefined || energized == true) {
@@ -569,7 +602,8 @@ var atlas = (function(){
         }
         else {
             // normal pacman in other cases
-            copyPacmanSprite(destCtx, x, y, dirEnum, frame);
+            //copyPacmanSprite(destCtx, x, y, dirEnum, frame);
+	    drawAstereSprite(destCtx, x, y, dirEnum, frame);
         }
     };
 
@@ -628,6 +662,7 @@ var atlas = (function(){
         drawOttoSprite: copyOttoSprite,
         drawMsOttoSprite: copyMsOttoSprite,
         drawPacmanSprite: copyPacmanSprite,
+        //drawAstereSprite: copyAstereSprite,
         drawMsPacmanSprite: copyMsPacmanSprite,
         drawCookiemanSprite: copyCookiemanSprite,
         drawFruitSprite: copyFruitSprite,
@@ -635,7 +670,7 @@ var atlas = (function(){
         drawPacFruitPoints: copyPacFruitPoints,
         drawMsPacFruitPoints: copyMsPacFruitPoints,
         drawSnail: copySnail,
-        drawCovid19ManSprite: copyCovid19ManSprite,
+        drawCovid19AstereSprite: copyCovid19AstereSprite,
         drawVirusSprite: copyVirusSprite,
         drawPelletSprite: copyPelletSprite,
     };

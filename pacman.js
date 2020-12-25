@@ -175,7 +175,7 @@ var turboMode = false;
 var gameMode = GAME_PACMAN;
 var getGameName = (function(){
 
-    var names = ["PAC-MAN", "MS PAC-MAN", "COOKIE-MAN","CRAZY OTTO","COVID-19"];
+    var names = ["PAC-MAN", "MS PAC-MAN", "COOKIE-MAN","CRAZY OTTO","ASTERE"];
     
     return function(mode) {
         if (mode == undefined) {
@@ -187,7 +187,7 @@ var getGameName = (function(){
 
 var getGameDescription = (function(){
 
-    var desc = [
+    /*var desc = [
         [
             "ORIGINAL ARCADE:",
             "NAMCO (C) 1980",
@@ -245,17 +245,31 @@ var getGameDescription = (function(){
             "MKBIT",
         ],
     ];
+    */
+    desc = [
+            "ORIGINAL ARCADE:",
+            "NAMCO (C) 1980",
+            "REVERSE-ENGINEERING:",
+            "JAMEY PITTMAN",
+            "REMAKE:",
+            "SHAUN WILLIAMS",
+            "COVID-19 MOD:",
+            "MKBIT",
+            "LES DODUS HAPPY 2021 MOD:",
+            "LES DODUS",
+    ];
     
     return function(mode) {
         if (mode == undefined) {
             mode = gameMode;
         }
-        return desc[mode];
+        //return desc[mode];
+	return desc;
     };
 })();
 
 var getGhostNames = function(mode) {
-    if (mode == undefined) {
+    /*if (mode == undefined) {
         mode = gameMode;
     }
     if (mode == GAME_OTTO) {
@@ -272,11 +286,12 @@ var getGhostNames = function(mode) {
     }
     else if (mode == GAME_COVID19) {
         return ["wuhan", "lockdown", "cough", "fever"];
-    }
+	}*/
+    return ["wuhan", "lockdown", "cough", "fever"];
 };
 
 var getGhostDrawFunc = function(mode) {
-    if (mode == undefined) {
+    /*if (mode == undefined) {
         mode = gameMode;
     }
     if (mode == GAME_OTTO) {
@@ -290,7 +305,8 @@ var getGhostDrawFunc = function(mode) {
     }
     else {
         return atlas.drawGhostSprite;
-    }
+	}*/
+    return atlas.drawVirusSprite;
 };
 
 var getPlayerDrawFunc = function(mode) {
@@ -307,11 +323,10 @@ var getPlayerDrawFunc = function(mode) {
         return atlas.drawMsPacmanSprite;
     }
     else if (mode == GAME_COOKIE) {
-        //return atlas.drawCookiemanSprite;
-        return drawCookiemanSprite;
+        return atlas.drawCookiemanSprite;
     }
     else if (mode == GAME_COVID19) {
-        return atlas.drawCovid19ManSprite;
+        return atlas.drawCovid19AstereSprite;
     }
 };
 
@@ -2691,6 +2706,27 @@ var atlas = (function(){
             }
         })();
 
+	/*
+	var drawAstereCells = function(row,col,dir) {
+            drawAtCell(function(x,y) { drawAstereSprite(ctx, x,y, dir, Math.PI/6); }, row, col);
+            drawAtCell(function(x,y) { drawAstereSprite(ctx, x,y, dir, Math.PI/3); }, row, col+1);
+        };
+        row++;
+
+        // draw astere mouth closed
+        drawAtCell(function(x,y) { drawAstereSprite(ctx, x,y, DIR_RIGHT, 0); }, row, 0);
+
+        // draw astere directions
+        (function(){
+            var i;
+            var col=1;
+            for (i=0; i<4; i++) {
+                drawAstereCells(row,col,i);
+                col+=2;
+            }
+        })();
+	*/
+
         var drawMsPacCells = function(row,col,dir) {
             drawAtCell(function(x,y) { drawMsPacmanSprite(ctx, x,y, dir, 0); }, row, col);
             drawAtCell(function(x,y) { drawMsPacmanSprite(ctx, x,y, dir, 1); }, row, col+1);
@@ -2858,16 +2894,16 @@ var atlas = (function(){
 
         // draw pacman immune
         row++;
-        var drawCovid19ManCells = function (row, col, dir) {
-            drawAtCell(function (x, y) { drawCovid19ManSprite(ctx, x, y, dir, 0); }, row, col);
-            drawAtCell(function (x, y) { drawCovid19ManSprite(ctx, x, y, dir, 1); }, row, col + 1);
-            drawAtCell(function (x, y) { drawCovid19ManSprite(ctx, x, y, dir, 2); }, row, col + 2);
+        var drawCovid19AstereCells = function (row, col, dir) {
+            drawAtCell(function (x, y) { drawCovid19AstereSprite(ctx, x, y, dir, 0); }, row, col);
+            drawAtCell(function (x, y) { drawCovid19AstereSprite(ctx, x, y, dir, 1); }, row, col + 1);
+            drawAtCell(function (x, y) { drawCovid19AstereSprite(ctx, x, y, dir, 2); }, row, col + 2);
         };
         (function () {
             var i;
             var col = 0;
             for (i = 0; i < 4; i++) {
-                drawCovid19ManCells(row, col, i);
+                drawCovid19AstereCells(row, col, i);
                 col += 3;
             }
         })();
@@ -3112,7 +3148,19 @@ var atlas = (function(){
         copyCellTo(row,col,destCtx,x,y);
     };
 
-    var copyCovid19ManSprite = function (destCtx, x, y, dirEnum, frame, ignore, energized) {
+    /*var copyAstereSprite = function(destCtx,x,y,dirEnum,frame) {
+        var row = 6;
+        var col;
+        if (frame == 0) {
+            col = 0;
+        }
+        else {
+           col = dirEnum*2+1+(frame-1);
+        }
+        copyCellTo(row,col,destCtx,x,y);
+    };*/
+
+    var copyCovid19AstereSprite = function (destCtx, x, y, dirEnum, frame, ignore, energized) {
         // for non in game cases show mask all the time
         // if energized pac man has mask
         if (energized == undefined || energized == true) {
@@ -3122,7 +3170,8 @@ var atlas = (function(){
         }
         else {
             // normal pacman in other cases
-            copyPacmanSprite(destCtx, x, y, dirEnum, frame);
+            //copyPacmanSprite(destCtx, x, y, dirEnum, frame);
+	    drawAstereSprite(destCtx, x, y, dirEnum, frame);
         }
     };
 
@@ -3181,6 +3230,7 @@ var atlas = (function(){
         drawOttoSprite: copyOttoSprite,
         drawMsOttoSprite: copyMsOttoSprite,
         drawPacmanSprite: copyPacmanSprite,
+        //drawAstereSprite: copyAstereSprite,
         drawMsPacmanSprite: copyMsPacmanSprite,
         drawCookiemanSprite: copyCookiemanSprite,
         drawFruitSprite: copyFruitSprite,
@@ -3188,7 +3238,7 @@ var atlas = (function(){
         drawPacFruitPoints: copyPacFruitPoints,
         drawMsPacFruitPoints: copyMsPacFruitPoints,
         drawSnail: copySnail,
-        drawCovid19ManSprite: copyCovid19ManSprite,
+        drawCovid19AstereSprite: copyCovid19AstereSprite,
         drawVirusSprite: copyVirusSprite,
         drawPelletSprite: copyPelletSprite,
     };
@@ -3969,7 +4019,7 @@ var initRenderer = function(){
                     }
                     else if (gameMode == GAME_COVID19) {
                         for (i = 0; i < lives; i++) {
-                            drawCovid19ManSprite(bgCtx, 0, 0, DIR_RIGHT, 0);
+                            drawCovid19AstereSprite(bgCtx, 0, 0, DIR_RIGHT, 0);
                             bgCtx.translate(2 * tileSize, 0);
                         }
                     }
@@ -4240,7 +4290,7 @@ var initRenderer = function(){
                     // open mouth all the way while shifting corner of mouth forward
                     t = f / 60;
                     var a = frame * Math.PI / 6;
-                    drawCovid19ManSprite(ctx, pacman.pixel.x, pacman.pixel.y, pacman.dirEnum, a + t * (Math.PI - a), 4 * t);
+                    drawCovid19AstereSprite(ctx, pacman.pixel.x, pacman.pixel.y, pacman.dirEnum, a + t * (Math.PI - a), 4 * t);
                 }
                 else {
                     // explode
@@ -6636,17 +6686,8 @@ var drawDeadOttoSprite = function(ctx,x,y) {
     drawOttoSprite(ctx,x,y,DIR_LEFT,2,Math.PI/2);
 };
 
-// draw pacman body
-var drawPacmanSprite = function(ctx,x,y,dirEnum,angle,mouthShift,scale,centerShift,alpha,color,rot_angle) {
-
-    if (mouthShift == undefined) mouthShift = 0;
-    if (centerShift == undefined) centerShift = 0;
-    if (scale == undefined) scale = 1;
-    if (alpha == undefined) alpha = 1;
-
-    if (color == undefined) {
-        color = "rgba(255,255,0," + alpha + ")";
-    }
+// Prepare sprite
+var prepareSprite = function(ctx,x,y,dirEnum,angle,mouthShift,scale,centerShift,alpha,color,rot_angle) {
 
     ctx.save();
     ctx.translate(x,y);
@@ -6664,49 +6705,79 @@ var drawPacmanSprite = function(ctx,x,y,dirEnum,angle,mouthShift,scale,centerShi
 	//ctx.rotate(2*d90);
 	ctx.scale(-1, 1);
     }
+}
+
+// draw pacman body
+var drawPacmanSprite = function(ctx,x,y,dirEnum,angle,mouthShift,scale,centerShift,alpha,color,rot_angle) {
+
+    if (mouthShift == undefined) mouthShift = 0;
+    if (centerShift == undefined) centerShift = 0;
+    if (scale == undefined) scale = 1;
+    if (alpha == undefined) alpha = 1;
+
+    if (color == undefined) {
+        color = "rgba(255,255,0," + alpha + ")";
+    }
+    
+    prepareSprite(ctx,x,y,dirEnum,angle,mouthShift,scale,centerShift,alpha,color,rot_angle);
 
     // plant corner of mouth
-    //ctx.beginPath();
-    //ctx.moveTo(-3+mouthShift,0);
+    ctx.beginPath();
+    ctx.moveTo(-3+mouthShift,0);
 
     // draw head outline
-    //ctx.arc(centerShift,0,6.5,angle,2*Math.PI-angle);
-    //ctx.closePath();
+    ctx.arc(centerShift,0,6.5,angle,2*Math.PI-angle);
+    ctx.closePath();
 
-    //ctx.strokeStyle = color;
-    //ctx.stroke();
-    //ctx.fillStyle = color;
-    //ctx.fill();
+    ctx.fillStyle = color;
+    ctx.fill();
+
+    ctx.restore();
+};
+
+// draw pacman body
+var drawAstereSprite = function(ctx,x,y,dirEnum,angle,mouthShift,scale,centerShift,alpha,color,rot_angle) {
+
+    if (mouthShift == undefined) mouthShift = 0;
+    if (centerShift == undefined) centerShift = 0;
+    if (scale == undefined) scale = 1;
+    if (alpha == undefined) alpha = 1;
+
+    if (color == undefined) {
+        color = "rgba(255,255,0," + alpha + ")";
+    }
+    
+    prepareSprite(ctx,x,y,dirEnum,angle,mouthShift,scale,centerShift,alpha,color,rot_angle);
 
     if (angle == 0.0) {
 	ctx.drawImage(imgsprites.astereOpen, -6.5, -6.5, 13, 13);
     }
     else {
-	ctx.drawImage(imgsprites.astereClosed, -6.5, -6.5, 13, 13);
+        ctx.drawImage(imgsprites.astereClosed, -6.5, -6.5, 13, 13);
     }
 
     ctx.restore();
 };
 
-var drawCovid19ManSprite = function (ctx, x, y, dirEnum, frame, rot_angle) {
+var drawCovid19AstereSprite = function (ctx, x, y, dirEnum, frame, rot_angle) {
     var angle = 0;
 
     // draw body
     if (frame == 0) {
         // closed
-        drawPacmanSprite(ctx, x, y, dirEnum, 0, undefined, undefined, undefined, undefined, undefined, rot_angle);
+        drawAstereSprite(ctx, x, y, dirEnum, 0, undefined, undefined, undefined, undefined, undefined, rot_angle);
         angle = Math.atan(0.4); // angle for mask drawing
     }
     else if (frame == 1) {
         // open
         angle = Math.atan(4 / 5);
-        drawPacmanSprite(ctx, x, y, dirEnum, angle, undefined, undefined, undefined, undefined, undefined, rot_angle);
+        drawAstereSprite(ctx, x, y, dirEnum, angle, undefined, undefined, undefined, undefined, undefined, rot_angle);
         angle = Math.atan(0.9); // angle for mask drawing
     }
     else if (frame == 2) {
         // wide
         angle = Math.atan(6 / 3);
-        drawPacmanSprite(ctx, x, y, dirEnum, angle, undefined, undefined, undefined, undefined, undefined, rot_angle);
+        drawAstereSprite(ctx, x, y, dirEnum, angle, undefined, undefined, undefined, undefined, undefined, rot_angle);
         angle = Math.atan(2.1); // angle for mask drawing
     }
 
@@ -10459,7 +10530,7 @@ var homeState = (function(){
         menu.disable();
     };
 
-    var menu = new Menu("CHOOSE A GAME",2*tileSize,0*tileSize,mapWidth-4*tileSize,3*tileSize,tileSize,tileSize+"px ArcadeR", "#EEE");
+    var menu = new Menu("CHOOSE A DODUS",2*tileSize,0*tileSize,mapWidth-4*tileSize,3*tileSize,tileSize,tileSize+"px ArcadeR", "#EEE");
     var getIconAnimFrame = function(frame) {
         frame = Math.floor(frame/3)+1;
         frame %= 4;
@@ -10480,6 +10551,7 @@ var homeState = (function(){
         },
         function(ctx,x,y,frame) {
             atlas.drawPacmanSprite(ctx,x,y,DIR_RIGHT,getIconAnimFrame(frame));
+	    //drawTomSprite(ctx,x,y,DIR_RIGHT,getIconAnimFrame(frame));
         });
     menu.addTextIconButton(getGameName(GAME_MSPACMAN),
         function() {
@@ -10503,7 +10575,7 @@ var homeState = (function(){
             exitTo(preNewGameState);
         },
         function (ctx, x, y, frame) {
-            atlas.drawCovid19ManSprite(ctx, x, y, DIR_RIGHT, getIconAnimFrame(frame));
+            atlas.drawCovid19AstereSprite(ctx, x, y, DIR_RIGHT, getIconAnimFrame(frame));
         });
 
     menu.addSpacer(0.5);
@@ -10513,6 +10585,10 @@ var homeState = (function(){
         },
         function(ctx,x,y,frame) {
             atlas.drawGhostSprite(ctx,x,y,Math.floor(frame/8)%2,DIR_RIGHT,false,false,false,blinky.color);
+        });
+    menu.addTextButton("ABOUT",
+        function() { 
+            exitTo(aboutGameState);
         });
 
     return {
