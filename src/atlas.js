@@ -305,7 +305,7 @@ var atlas = (function(){
 
         // draw tom immune
         row++;
-	console.log("tom imune row",row);
+	//console.log("tom imune row",row);
         var drawCovid19TomCells = function (row, col, dir) {
             drawAtCell(function (x, y) { drawCovid19TomSprite(ctx, x, y, dir, 0); }, row, col);
             drawAtCell(function (x, y) { drawCovid19TomSprite(ctx, x, y, dir, 1); }, row, col + 1);
@@ -322,7 +322,7 @@ var atlas = (function(){
 
         // draw adele immune
         row++;
-	console.log("adele imune row",row);
+	//console.log("adele imune row",row);
         var drawCovid19AdeleCells = function (row, col, dir) {
             drawAtCell(function (x, y) { drawCovid19AdeleSprite(ctx, x, y, dir, 0); }, row, col);
             drawAtCell(function (x, y) { drawCovid19AdeleSprite(ctx, x, y, dir, 1); }, row, col + 1);
@@ -339,7 +339,7 @@ var atlas = (function(){
 
         // draw junie immune
         row++;
-	console.log("junie imune row",row);
+	//console.log("junie imune row",row);
         var drawCovid19JunieCells = function (row, col, dir) {
             drawAtCell(function (x, y) { drawCovid19JunieSprite(ctx, x, y, dir, 0); }, row, col);
             drawAtCell(function (x, y) { drawCovid19JunieSprite(ctx, x, y, dir, 1); }, row, col + 1);
@@ -356,7 +356,7 @@ var atlas = (function(){
 
         // draw astere immune
         row++;
-	console.log("astere imune row",row);
+	//console.log("astere imune row",row);
         var drawCovid19AstereCells = function (row, col, dir) {
             drawAtCell(function (x, y) { drawCovid19AstereSprite(ctx, x, y, dir, 0); }, row, col);
             drawAtCell(function (x, y) { drawCovid19AstereSprite(ctx, x, y, dir, 1); }, row, col + 1);
@@ -377,7 +377,7 @@ var atlas = (function(){
             drawAtCell(function(x,y) { drawTomSprite(ctx, x,y, dir, Math.PI/3); }, row, col+1);
         };
         row++;
-	console.log("tom not-imune row",row);
+	//console.log("tom not-imune row",row);
 
         // draw mouth closed
         drawAtCell(function(x,y) { drawTomSprite(ctx, x,y, DIR_RIGHT, 0); }, row, 0);
@@ -397,7 +397,7 @@ var atlas = (function(){
             drawAtCell(function(x,y) { drawAdeleSprite(ctx, x,y, dir, Math.PI/3); }, row, col+1);
         };
         row++;
-	console.log("adele not-imune row",row);
+	//console.log("adele not-imune row",row);
 
         // draw mouth closed
         drawAtCell(function(x,y) { drawAdeleSprite(ctx, x,y, DIR_RIGHT, 0); }, row, 0);
@@ -417,7 +417,7 @@ var atlas = (function(){
             drawAtCell(function(x,y) { drawJunieSprite(ctx, x,y, dir, Math.PI/3); }, row, col+1);
         };
         row++;
-	console.log("junie not-imune row",row);
+	//console.log("junie not-imune row",row);
 
         // draw mouth closed
         drawAtCell(function(x,y) { drawJunieSprite(ctx, x,y, DIR_RIGHT, 0); }, row, 0);
@@ -437,7 +437,7 @@ var atlas = (function(){
             drawAtCell(function(x,y) { drawAstereSprite(ctx, x,y, dir, Math.PI/3); }, row, col+1);
         };
         row++;
-	console.log("astere not-imune row",row);
+	//console.log("astere not-imune row",row);
 
         // draw mouth closed
         drawAtCell(function(x,y) { drawAstereSprite(ctx, x,y, DIR_RIGHT, 0); }, row, 0);

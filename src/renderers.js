@@ -829,6 +829,7 @@ var initRenderer = function(){
                 var scale = 0.85;
                 for (i=0, j=startLevel-numFruit+1; i<numFruit && j<=level; j++, i++) {
                     f = fruits[j];
+		    console.log("fruit",f," ",j);
                     if (f) {
                         drawFunc = getSpriteFuncFromFruitName(f.name);
                         if (drawFunc) {
@@ -1099,6 +1100,7 @@ var initRenderer = function(){
 
             if (fruit.getCurrentFruit()) {
                 var name = fruit.getCurrentFruit().name;
+		console.log("fruit.getCurrentFruit()",fruit.getCurrentFruit());
 
                 // draw history trails of the fruit if applicable
                 if (fruit.savedPixel) {
@@ -1119,19 +1121,22 @@ var initRenderer = function(){
                     }
                     else {
                         atlas.drawMsPacFruitPoints(ctx, fruit.pixel.x, fruit.pixel.y, fruit.getPoints());
-                    }
+		    }
+		    //atlas.drawPacFruitPoints(ctx, fruit.pixel.x, fruit.pixel.y, fruit.getPoints());
                 }
             }
         },
 
         // draw energizer
         drawEnergizerPellet: function (ctx, x, y) {
-            if (gameMode == GAME_COVID19) {
+            /*if (gameMode == GAME_COVID19) {
                 atlas.drawPelletSprite(ctx, x, y);
             }
             else {
                 ctx.arc(x, y, this.energizerSize / 2, 0, Math.PI * 2);
             }
+	    */
+	    atlas.drawPelletSprite(ctx, x, y);
         },
 
     });

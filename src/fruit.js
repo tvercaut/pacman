@@ -358,9 +358,10 @@ var setFruitFromGameMode = (function() {
     var pacfruit = new PacFruit();
     var mspacfruit = new MsPacFruit();
     var covid19fruit = new Covid19Fruit();
-    fruit = pacfruit;
+    //fruit = pacfruit;
+    fruit = covid19fruit;
     return function() {
-        if (gameMode == GAME_PACMAN) {
+        /*if (gameMode == GAME_PACMAN) {
             fruit = pacfruit;
         }
         else if (gameMode == GAME_COVID19) {
@@ -368,6 +369,7 @@ var setFruitFromGameMode = (function() {
         }
         else {
             fruit = mspacfruit;
-        }
+        }*/
+	fruit = covid19fruit;
     };
 })();

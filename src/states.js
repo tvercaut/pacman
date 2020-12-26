@@ -88,7 +88,7 @@ var homeState = (function(){
         menu.disable();
     };
 
-    var menu = new Menu("CHOOSE A DODUS",2*tileSize,0*tileSize,mapWidth-4*tileSize,3*tileSize,tileSize,tileSize+"px ArcadeR", "#EEE");
+    var menu = new Menu("HAPPY 2021! PICK A DODUS",2*tileSize,0*tileSize,mapWidth-4*tileSize,3*tileSize,tileSize,tileSize+"px ArcadeR", "#EEE");
     var getIconAnimFrame = function(frame) {
         frame = Math.floor(frame/3)+1;
         frame %= 4;
@@ -143,7 +143,7 @@ var homeState = (function(){
         });
 
     menu.addSpacer(0.5);
-    menu.addTextIconButton("LEARN",
+    menu.addTextIconButton("LEARN THE GAME",
         function() {
             exitTo(learnState);
         },
@@ -151,7 +151,7 @@ var homeState = (function(){
             //atlas.drawGhostSprite(ctx,x,y,Math.floor(frame/8)%2,DIR_RIGHT,false,false,false,blinky.color);
 	    atlas.drawVirusSprite(ctx,x,y,Math.floor(frame/8)%2,DIR_RIGHT,false,false,false,blinky.color);
         });
-    menu.addTextButton("ABOUT",
+    menu.addTextButton("MORE FROM LES DODUS",
         function() { 
             exitTo(aboutGameState);
         });

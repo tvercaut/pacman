@@ -87,16 +87,17 @@ var getGameDescription = (function(){
     ];
     */
     desc = [
-            "ORIGINAL ARCADE:",
-            "NAMCO (C) 1980",
-            "REVERSE-ENGINEERING:",
-            "JAMEY PITTMAN",
-            "REMAKE:",
-            "SHAUN WILLIAMS",
-            "COVID-19 MOD:",
-            "MKBIT",
-            "LES DODUS HAPPY 2021 MOD:",
-            "LES DODUS",
+
+            "LES DODUS WISH YOU A HAPPY 2021!",
+	    "HOPING TO SEE YOU SOON I.R.L.!",
+            "",
+            "GAME CREDITS AT:",
+	    "https://github.com/tvercaut/pacman",
+            //"ORIGINAL ARCADE: NAMCO (C) 1980",
+            //"REVERSE-ENGINEERING: AMEY PITTMAN",
+            //"REMAKE: SHAUN WILLIAMS",
+            //"COVID-19 MOD: MKBIT",
+            //"HAPPY 2021 HACK: TVERCAUT",
     ];
     
     return function(mode) {

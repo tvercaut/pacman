@@ -247,16 +247,17 @@ var getGameDescription = (function(){
     ];
     */
     desc = [
-            "ORIGINAL ARCADE:",
-            "NAMCO (C) 1980",
-            "REVERSE-ENGINEERING:",
-            "JAMEY PITTMAN",
-            "REMAKE:",
-            "SHAUN WILLIAMS",
-            "COVID-19 MOD:",
-            "MKBIT",
-            "LES DODUS HAPPY 2021 MOD:",
-            "LES DODUS",
+
+            "LES DODUS WISH YOU A HAPPY 2021!",
+	    "HOPING TO SEE YOU SOON I.R.L.!",
+            "",
+            "GAME CREDITS AT:",
+	    "https://github.com/tvercaut/pacman",
+            //"ORIGINAL ARCADE: NAMCO (C) 1980",
+            //"REVERSE-ENGINEERING: AMEY PITTMAN",
+            //"REMAKE: SHAUN WILLIAMS",
+            //"COVID-19 MOD: MKBIT",
+            //"HAPPY 2021 HACK: TVERCAUT",
     ];
     
     return function(mode) {
@@ -2880,7 +2881,7 @@ var atlas = (function(){
 
         // draw tom immune
         row++;
-	console.log("tom imune row",row);
+	//console.log("tom imune row",row);
         var drawCovid19TomCells = function (row, col, dir) {
             drawAtCell(function (x, y) { drawCovid19TomSprite(ctx, x, y, dir, 0); }, row, col);
             drawAtCell(function (x, y) { drawCovid19TomSprite(ctx, x, y, dir, 1); }, row, col + 1);
@@ -2897,7 +2898,7 @@ var atlas = (function(){
 
         // draw adele immune
         row++;
-	console.log("adele imune row",row);
+	//console.log("adele imune row",row);
         var drawCovid19AdeleCells = function (row, col, dir) {
             drawAtCell(function (x, y) { drawCovid19AdeleSprite(ctx, x, y, dir, 0); }, row, col);
             drawAtCell(function (x, y) { drawCovid19AdeleSprite(ctx, x, y, dir, 1); }, row, col + 1);
@@ -2914,7 +2915,7 @@ var atlas = (function(){
 
         // draw junie immune
         row++;
-	console.log("junie imune row",row);
+	//console.log("junie imune row",row);
         var drawCovid19JunieCells = function (row, col, dir) {
             drawAtCell(function (x, y) { drawCovid19JunieSprite(ctx, x, y, dir, 0); }, row, col);
             drawAtCell(function (x, y) { drawCovid19JunieSprite(ctx, x, y, dir, 1); }, row, col + 1);
@@ -2931,7 +2932,7 @@ var atlas = (function(){
 
         // draw astere immune
         row++;
-	console.log("astere imune row",row);
+	//console.log("astere imune row",row);
         var drawCovid19AstereCells = function (row, col, dir) {
             drawAtCell(function (x, y) { drawCovid19AstereSprite(ctx, x, y, dir, 0); }, row, col);
             drawAtCell(function (x, y) { drawCovid19AstereSprite(ctx, x, y, dir, 1); }, row, col + 1);
@@ -2952,7 +2953,7 @@ var atlas = (function(){
             drawAtCell(function(x,y) { drawTomSprite(ctx, x,y, dir, Math.PI/3); }, row, col+1);
         };
         row++;
-	console.log("tom not-imune row",row);
+	//console.log("tom not-imune row",row);
 
         // draw mouth closed
         drawAtCell(function(x,y) { drawTomSprite(ctx, x,y, DIR_RIGHT, 0); }, row, 0);
@@ -2972,7 +2973,7 @@ var atlas = (function(){
             drawAtCell(function(x,y) { drawAdeleSprite(ctx, x,y, dir, Math.PI/3); }, row, col+1);
         };
         row++;
-	console.log("adele not-imune row",row);
+	//console.log("adele not-imune row",row);
 
         // draw mouth closed
         drawAtCell(function(x,y) { drawAdeleSprite(ctx, x,y, DIR_RIGHT, 0); }, row, 0);
@@ -2992,7 +2993,7 @@ var atlas = (function(){
             drawAtCell(function(x,y) { drawJunieSprite(ctx, x,y, dir, Math.PI/3); }, row, col+1);
         };
         row++;
-	console.log("junie not-imune row",row);
+	//console.log("junie not-imune row",row);
 
         // draw mouth closed
         drawAtCell(function(x,y) { drawJunieSprite(ctx, x,y, DIR_RIGHT, 0); }, row, 0);
@@ -3012,7 +3013,7 @@ var atlas = (function(){
             drawAtCell(function(x,y) { drawAstereSprite(ctx, x,y, dir, Math.PI/3); }, row, col+1);
         };
         row++;
-	console.log("astere not-imune row",row);
+	//console.log("astere not-imune row",row);
 
         // draw mouth closed
         drawAtCell(function(x,y) { drawAstereSprite(ctx, x,y, DIR_RIGHT, 0); }, row, 0);
@@ -4290,6 +4291,7 @@ var initRenderer = function(){
                 var scale = 0.85;
                 for (i=0, j=startLevel-numFruit+1; i<numFruit && j<=level; j++, i++) {
                     f = fruits[j];
+		    console.log("fruit",f," ",j);
                     if (f) {
                         drawFunc = getSpriteFuncFromFruitName(f.name);
                         if (drawFunc) {
@@ -4560,6 +4562,7 @@ var initRenderer = function(){
 
             if (fruit.getCurrentFruit()) {
                 var name = fruit.getCurrentFruit().name;
+		console.log("fruit.getCurrentFruit()",fruit.getCurrentFruit());
 
                 // draw history trails of the fruit if applicable
                 if (fruit.savedPixel) {
@@ -4580,19 +4583,22 @@ var initRenderer = function(){
                     }
                     else {
                         atlas.drawMsPacFruitPoints(ctx, fruit.pixel.x, fruit.pixel.y, fruit.getPoints());
-                    }
+		    }
+		    //atlas.drawPacFruitPoints(ctx, fruit.pixel.x, fruit.pixel.y, fruit.getPoints());
                 }
             }
         },
 
         // draw energizer
         drawEnergizerPellet: function (ctx, x, y) {
-            if (gameMode == GAME_COVID19) {
+            /*if (gameMode == GAME_COVID19) {
                 atlas.drawPelletSprite(ctx, x, y);
             }
             else {
                 ctx.arc(x, y, this.energizerSize / 2, 0, Math.PI * 2);
             }
+	    */
+	    atlas.drawPelletSprite(ctx, x, y);
         },
 
     });
@@ -7098,19 +7104,19 @@ var drawCovid19MaskedSprite = function (ctx, x, y, dirEnum, frame, rot_angle) {
     if (frame == 0) {
         // closed
         //drawAstereSprite(ctx, x, y, dirEnum, 0, undefined, undefined, undefined, undefined, undefined, rot_angle);
-        angle = Math.atan(0.4); // angle for mask drawing
+        angle = Math.atan(0.4*0.5); // angle for mask drawing
     }
     else if (frame == 1) {
         // open
         //angle = Math.atan(4 / 5);
         //drawAstereSprite(ctx, x, y, dirEnum, angle, undefined, undefined, undefined, undefined, undefined, rot_angle);
-        angle = Math.atan(0.9); // angle for mask drawing
+        angle = Math.atan(0.9*0.5); // angle for mask drawing
     }
     else if (frame == 2) {
         // wide
         //angle = Math.atan(6 / 3);
         //drawAstereSprite(ctx, x, y, dirEnum, angle, undefined, undefined, undefined, undefined, undefined, rot_angle);
-        angle = Math.atan(2.1); // angle for mask drawing
+        angle = Math.atan(2.1*0.5); // angle for mask drawing
     }
 
     ctx.save();
@@ -7135,15 +7141,18 @@ var drawCovid19MaskedSprite = function (ctx, x, y, dirEnum, frame, rot_angle) {
     var c_part = Math.cos(angle / 3);
     var s_part = Math.sin(angle / 3);
 
+    // offset
+    oy = 4;
+
     // mask fill
     ctx.fillStyle = "rgba(0,255,185,0.7)";
     ctx.beginPath();
-    ctx.moveTo(-4, 0);
-    ctx.lineTo(r2 * c, r2 * s);
-    ctx.lineTo(r2 * c_part, r2 * s_part);
-    ctx.lineTo(r2 * c_part, -r2 * s_part);
-    ctx.lineTo(r2 * c, -r2 * s);
-    ctx.lineTo(-4, 0);
+    ctx.moveTo(-4, oy);
+    ctx.lineTo(r2 * c, oy + r2 * s);
+    ctx.lineTo(r2 * c_part, oy + r2 * s_part);
+    ctx.lineTo(r2 * c_part, oy -r2 * s_part);
+    ctx.lineTo(r2 * c, oy -r2 * s);
+    ctx.lineTo(-4, oy);
 
 
     ctx.fill();
@@ -7153,14 +7162,14 @@ var drawCovid19MaskedSprite = function (ctx, x, y, dirEnum, frame, rot_angle) {
     ctx.lineWidth = 0.5;
     ctx.lineCap = "round";
     ctx.beginPath();
-    ctx.moveTo(-4, 0);
-    ctx.lineTo(r2 * c, r2 * s);
-    ctx.moveTo(-4, 0);
-    ctx.lineTo(r2 * c_part, r2 * s_part);
-    ctx.moveTo(-4, 0);
-    ctx.lineTo(r2 * c_part, -r2 * s_part);
-    ctx.moveTo(-4, 0);
-    ctx.lineTo(r2 * c, -r2 * s);
+    ctx.moveTo(-4, oy);
+    ctx.lineTo(r2 * c, oy + r2 * s);
+    ctx.moveTo(-4, oy);
+    ctx.lineTo(r2 * c_part, oy + r2 * s_part);
+    ctx.moveTo(-4, oy);
+    ctx.lineTo(r2 * c_part, oy -r2 * s_part);
+    ctx.moveTo(-4, oy);
+    ctx.lineTo(r2 * c, oy -r2 * s);
     ctx.stroke();
 
     ctx.restore();
@@ -10715,9 +10724,10 @@ var setFruitFromGameMode = (function() {
     var pacfruit = new PacFruit();
     var mspacfruit = new MsPacFruit();
     var covid19fruit = new Covid19Fruit();
-    fruit = pacfruit;
+    //fruit = pacfruit;
+    fruit = covid19fruit;
     return function() {
-        if (gameMode == GAME_PACMAN) {
+        /*if (gameMode == GAME_PACMAN) {
             fruit = pacfruit;
         }
         else if (gameMode == GAME_COVID19) {
@@ -10725,7 +10735,8 @@ var setFruitFromGameMode = (function() {
         }
         else {
             fruit = mspacfruit;
-        }
+        }*/
+	fruit = covid19fruit;
     };
 })();
 //@line 1 "src/executive.js"
@@ -10962,7 +10973,7 @@ var homeState = (function(){
         menu.disable();
     };
 
-    var menu = new Menu("CHOOSE A DODUS",2*tileSize,0*tileSize,mapWidth-4*tileSize,3*tileSize,tileSize,tileSize+"px ArcadeR", "#EEE");
+    var menu = new Menu("HAPPY 2021! PICK A DODUS",2*tileSize,0*tileSize,mapWidth-4*tileSize,3*tileSize,tileSize,tileSize+"px ArcadeR", "#EEE");
     var getIconAnimFrame = function(frame) {
         frame = Math.floor(frame/3)+1;
         frame %= 4;
@@ -11017,7 +11028,7 @@ var homeState = (function(){
         });
 
     menu.addSpacer(0.5);
-    menu.addTextIconButton("LEARN",
+    menu.addTextIconButton("LEARN THE GAME",
         function() {
             exitTo(learnState);
         },
@@ -11025,7 +11036,7 @@ var homeState = (function(){
             //atlas.drawGhostSprite(ctx,x,y,Math.floor(frame/8)%2,DIR_RIGHT,false,false,false,blinky.color);
 	    atlas.drawVirusSprite(ctx,x,y,Math.floor(frame/8)%2,DIR_RIGHT,false,false,false,blinky.color);
         });
-    menu.addTextButton("ABOUT",
+    menu.addTextButton("MORE FROM LES DODUS",
         function() { 
             exitTo(aboutGameState);
         });
