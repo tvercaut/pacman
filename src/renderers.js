@@ -749,19 +749,22 @@ var initRenderer = function(){
                     var lives = extraLives == Infinity ? 1 : extraLives;
                     if (gameMode == GAME_PACMAN) {
                         for (i=0; i<lives; i++) {
-                            drawPacmanSprite(bgCtx, 0,0, DIR_LEFT, Math.PI/6);
+                            //drawPacmanSprite(bgCtx, 0,0, DIR_LEFT, Math.PI/6);
+			    drawCovid19TomSprite(bgCtx, 0, 0, DIR_RIGHT, 0);
                             bgCtx.translate(2*tileSize,0);
                         }
                     }
                     else if (gameMode == GAME_MSPACMAN) {
                         for (i=0; i<lives; i++) {
-                            drawMsPacmanSprite(bgCtx, 0,0, DIR_RIGHT, 1);
+                            //drawMsPacmanSprite(bgCtx, 0,0, DIR_RIGHT, 1);
+			    drawCovid19AdeleSprite(bgCtx, 0, 0, DIR_RIGHT, 0);
                             bgCtx.translate(2*tileSize,0);
                         }
                     }
                     else if (gameMode == GAME_COOKIE) {
                         for (i=0; i<lives; i++) {
-                            drawCookiemanSprite(bgCtx, 0,0, DIR_RIGHT, 1, false);
+                            //drawCookiemanSprite(bgCtx, 0,0, DIR_RIGHT, 1, false);
+			    drawCovid19JunieSprite(bgCtx, 0, 0, DIR_RIGHT, 0);
                             bgCtx.translate(2*tileSize,0);
                         }
                     }
@@ -994,7 +997,8 @@ var initRenderer = function(){
                     // open mouth all the way while shifting corner of mouth forward
                     t = f/60;
                     var a = frame*Math.PI/6;
-                    drawPacmanSprite(ctx, pacman.pixel.x, pacman.pixel.y, pacman.dirEnum, a + t*(Math.PI-a),4*t);
+                    //drawPacmanSprite(ctx, pacman.pixel.x, pacman.pixel.y, pacman.dirEnum, a + t*(Math.PI-a),4*t);
+		    drawCovid19TomSprite(ctx, pacman.pixel.x, pacman.pixel.y, pacman.dirEnum, a + t * (Math.PI - a), 4 * t);
                 }
                 else {
                     // explode
@@ -1023,18 +1027,48 @@ var initRenderer = function(){
                 }
             }
             else if (gameMode == GAME_MSPACMAN) {
+		/*
                 // spin 540 degrees
                 var maxAngle = Math.PI*5;
                 var step = (Math.PI/4) / maxAngle; // 45 degree steps
                 var angle = Math.floor(t/step)*step*maxAngle;
                 drawMsPacmanSprite(ctx, pacman.pixel.x, pacman.pixel.y, pacman.dirEnum, frame, angle);
+		*/
+		// 60 frames dying
+                // 15 frames exploding
+                var f = t * 75;
+                if (f <= 60) {
+                    // open mouth all the way while shifting corner of mouth forward
+                    t = f / 60;
+                    var a = frame * Math.PI / 6;
+                    drawCovid19AdeleSprite(ctx, pacman.pixel.x, pacman.pixel.y, pacman.dirEnum, a + t * (Math.PI - a), 4 * t);
+                }
+                else {
+                    // explode
+                    f -= 60;
+                    this.drawExplodingPlayer(f / 15);
+                }
             }
             else if (gameMode == GAME_COOKIE) {
+		/*
                 // spin 540 degrees
                 var maxAngle = Math.PI*5;
                 var step = (Math.PI/4) / maxAngle; // 45 degree steps
                 var angle = Math.floor(t/step)*step*maxAngle;
                 drawCookiemanSprite(ctx, pacman.pixel.x, pacman.pixel.y, pacman.dirEnum, frame, false, angle);
+		*/
+		var f = t * 75;
+                if (f <= 60) {
+                    // open mouth all the way while shifting corner of mouth forward
+                    t = f / 60;
+                    var a = frame * Math.PI / 6;
+                    drawCovid19JunieSprite(ctx, pacman.pixel.x, pacman.pixel.y, pacman.dirEnum, a + t * (Math.PI - a), 4 * t);
+                }
+                else {
+                    // explode
+                    f -= 60;
+                    this.drawExplodingPlayer(f / 15);
+                }
             }
             else if (gameMode == GAME_COVID19) {
                 // 60 frames dying

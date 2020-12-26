@@ -6,6 +6,21 @@ var imgsprites = new preloadImgSprites();
 
 function preloadImgSprites() {
 
+    this.tomOpen           = new Image(512,512);
+    this.tomOpen.src       = 'images/tom-open.png';
+    this.tomClosed         = new Image(512,512);
+    this.tomClosed.src     = 'images/tom-closed.png';
+    
+    this.adeleOpen         = new Image(512,512);
+    this.adeleOpen.src     = 'images/adele-open.png';
+    this.adeleClosed       = new Image(512,512);
+    this.adeleClosed.src   = 'images/adele-closed.png';
+    
+    this.junieOpen         = new Image(512,512);
+    this.junieOpen.src     = 'images/junie-open.png';
+    this.junieClosed       = new Image(512,512);
+    this.junieClosed.src   = 'images/junie-closed.png';
+    
     this.astereOpen        = new Image(512,512);
     this.astereOpen.src    = 'images/astere-open.png';
     this.astereClosed      = new Image(512,512);
@@ -1671,7 +1686,76 @@ var drawPacmanSprite = function(ctx,x,y,dirEnum,angle,mouthShift,scale,centerShi
     ctx.restore();
 };
 
-// draw pacman body
+// draw body
+var drawTomSprite = function(ctx,x,y,dirEnum,angle,mouthShift,scale,centerShift,alpha,color,rot_angle) {
+
+    if (mouthShift == undefined) mouthShift = 0;
+    if (centerShift == undefined) centerShift = 0;
+    if (scale == undefined) scale = 1;
+    if (alpha == undefined) alpha = 1;
+
+    if (color == undefined) {
+        color = "rgba(255,255,0," + alpha + ")";
+    }
+    
+    prepareSprite(ctx,x,y,dirEnum,angle,mouthShift,scale,centerShift,alpha,color,rot_angle);
+
+    if (angle == 0.0) {
+	ctx.drawImage(imgsprites.tomOpen, -6.5, -6.5, 13, 13);
+    }
+    else {
+        ctx.drawImage(imgsprites.tomClosed, -6.5, -6.5, 13, 13);
+    }
+
+    ctx.restore();
+};
+
+var drawAdeleSprite = function(ctx,x,y,dirEnum,angle,mouthShift,scale,centerShift,alpha,color,rot_angle) {
+
+    if (mouthShift == undefined) mouthShift = 0;
+    if (centerShift == undefined) centerShift = 0;
+    if (scale == undefined) scale = 1;
+    if (alpha == undefined) alpha = 1;
+
+    if (color == undefined) {
+        color = "rgba(255,255,0," + alpha + ")";
+    }
+    
+    prepareSprite(ctx,x,y,dirEnum,angle,mouthShift,scale,centerShift,alpha,color,rot_angle);
+
+    if (angle == 0.0) {
+	ctx.drawImage(imgsprites.adeleOpen, -6.5, -6.5, 13, 13);
+    }
+    else {
+        ctx.drawImage(imgsprites.adeleClosed, -6.5, -6.5, 13, 13);
+    }
+
+    ctx.restore();
+};
+
+var drawJunieSprite = function(ctx,x,y,dirEnum,angle,mouthShift,scale,centerShift,alpha,color,rot_angle) {
+
+    if (mouthShift == undefined) mouthShift = 0;
+    if (centerShift == undefined) centerShift = 0;
+    if (scale == undefined) scale = 1;
+    if (alpha == undefined) alpha = 1;
+
+    if (color == undefined) {
+        color = "rgba(255,255,0," + alpha + ")";
+    }
+    
+    prepareSprite(ctx,x,y,dirEnum,angle,mouthShift,scale,centerShift,alpha,color,rot_angle);
+
+    if (angle == 0.0) {
+	ctx.drawImage(imgsprites.junieOpen, -6.5, -6.5, 13, 13);
+    }
+    else {
+        ctx.drawImage(imgsprites.junieClosed, -6.5, -6.5, 13, 13);
+    }
+
+    ctx.restore();
+};
+
 var drawAstereSprite = function(ctx,x,y,dirEnum,angle,mouthShift,scale,centerShift,alpha,color,rot_angle) {
 
     if (mouthShift == undefined) mouthShift = 0;
@@ -1695,25 +1779,24 @@ var drawAstereSprite = function(ctx,x,y,dirEnum,angle,mouthShift,scale,centerShi
     ctx.restore();
 };
 
-var drawCovid19AstereSprite = function (ctx, x, y, dirEnum, frame, rot_angle) {
+var drawCovid19MaskedSprite = function (ctx, x, y, dirEnum, frame, rot_angle) {
     var angle = 0;
 
-    // draw body
     if (frame == 0) {
         // closed
-        drawAstereSprite(ctx, x, y, dirEnum, 0, undefined, undefined, undefined, undefined, undefined, rot_angle);
+        //drawAstereSprite(ctx, x, y, dirEnum, 0, undefined, undefined, undefined, undefined, undefined, rot_angle);
         angle = Math.atan(0.4); // angle for mask drawing
     }
     else if (frame == 1) {
         // open
-        angle = Math.atan(4 / 5);
-        drawAstereSprite(ctx, x, y, dirEnum, angle, undefined, undefined, undefined, undefined, undefined, rot_angle);
+        //angle = Math.atan(4 / 5);
+        //drawAstereSprite(ctx, x, y, dirEnum, angle, undefined, undefined, undefined, undefined, undefined, rot_angle);
         angle = Math.atan(0.9); // angle for mask drawing
     }
     else if (frame == 2) {
         // wide
-        angle = Math.atan(6 / 3);
-        drawAstereSprite(ctx, x, y, dirEnum, angle, undefined, undefined, undefined, undefined, undefined, rot_angle);
+        //angle = Math.atan(6 / 3);
+        //drawAstereSprite(ctx, x, y, dirEnum, angle, undefined, undefined, undefined, undefined, undefined, rot_angle);
         angle = Math.atan(2.1); // angle for mask drawing
     }
 
@@ -1769,6 +1852,106 @@ var drawCovid19AstereSprite = function (ctx, x, y, dirEnum, frame, rot_angle) {
 
     ctx.restore();
 };
+
+var drawCovid19TomSprite = function (ctx, x, y, dirEnum, frame, rot_angle) {
+    var angle = 0;
+
+    // draw body
+    if (frame == 0) {
+        // closed
+        drawTomSprite(ctx, x, y, dirEnum, 0, undefined, undefined, undefined, undefined, undefined, rot_angle);
+        //angle = Math.atan(0.4); // angle for mask drawing
+    }
+    else if (frame == 1) {
+        // open
+        angle = Math.atan(4 / 5);
+        drawTomSprite(ctx, x, y, dirEnum, angle, undefined, undefined, undefined, undefined, undefined, rot_angle);
+        //angle = Math.atan(0.9); // angle for mask drawing
+    }
+    else if (frame == 2) {
+        // wide
+        angle = Math.atan(6 / 3);
+        drawTomSprite(ctx, x, y, dirEnum, angle, undefined, undefined, undefined, undefined, undefined, rot_angle);
+        //angle = Math.atan(2.1); // angle for mask drawing
+    }
+
+    drawCovid19MaskedSprite(ctx, x, y, dirEnum, frame, rot_angle)
+}
+
+var drawCovid19AdeleSprite = function (ctx, x, y, dirEnum, frame, rot_angle) {
+    var angle = 0;
+
+    // draw body
+    if (frame == 0) {
+        // closed
+        drawAdeleSprite(ctx, x, y, dirEnum, 0, undefined, undefined, undefined, undefined, undefined, rot_angle);
+        //angle = Math.atan(0.4); // angle for mask drawing
+    }
+    else if (frame == 1) {
+        // open
+        angle = Math.atan(4 / 5);
+        drawAdeleSprite(ctx, x, y, dirEnum, angle, undefined, undefined, undefined, undefined, undefined, rot_angle);
+        //angle = Math.atan(0.9); // angle for mask drawing
+    }
+    else if (frame == 2) {
+        // wide
+        angle = Math.atan(6 / 3);
+        drawAdeleSprite(ctx, x, y, dirEnum, angle, undefined, undefined, undefined, undefined, undefined, rot_angle);
+        //angle = Math.atan(2.1); // angle for mask drawing
+    }
+
+    drawCovid19MaskedSprite(ctx, x, y, dirEnum, frame, rot_angle)
+}
+
+var drawCovid19JunieSprite = function (ctx, x, y, dirEnum, frame, rot_angle) {
+    var angle = 0;
+
+    // draw body
+    if (frame == 0) {
+        // closed
+        drawJunieSprite(ctx, x, y, dirEnum, 0, undefined, undefined, undefined, undefined, undefined, rot_angle);
+        //angle = Math.atan(0.4); // angle for mask drawing
+    }
+    else if (frame == 1) {
+        // open
+        angle = Math.atan(4 / 5);
+        drawJunieSprite(ctx, x, y, dirEnum, angle, undefined, undefined, undefined, undefined, undefined, rot_angle);
+        //angle = Math.atan(0.9); // angle for mask drawing
+    }
+    else if (frame == 2) {
+        // wide
+        angle = Math.atan(6 / 3);
+        drawJunieSprite(ctx, x, y, dirEnum, angle, undefined, undefined, undefined, undefined, undefined, rot_angle);
+        //angle = Math.atan(2.1); // angle for mask drawing
+    }
+
+    drawCovid19MaskedSprite(ctx, x, y, dirEnum, frame, rot_angle)
+}
+
+var drawCovid19AstereSprite = function (ctx, x, y, dirEnum, frame, rot_angle) {
+    var angle = 0;
+
+    // draw body
+    if (frame == 0) {
+        // closed
+        drawAstereSprite(ctx, x, y, dirEnum, 0, undefined, undefined, undefined, undefined, undefined, rot_angle);
+        //angle = Math.atan(0.4); // angle for mask drawing
+    }
+    else if (frame == 1) {
+        // open
+        angle = Math.atan(4 / 5);
+        drawAstereSprite(ctx, x, y, dirEnum, angle, undefined, undefined, undefined, undefined, undefined, rot_angle);
+        //angle = Math.atan(0.9); // angle for mask drawing
+    }
+    else if (frame == 2) {
+        // wide
+        angle = Math.atan(6 / 3);
+        drawAstereSprite(ctx, x, y, dirEnum, angle, undefined, undefined, undefined, undefined, undefined, rot_angle);
+        //angle = Math.atan(2.1); // angle for mask drawing
+    }
+
+    drawCovid19MaskedSprite(ctx, x, y, dirEnum, frame, rot_angle)
+}
 
 var drawPelletSprite = function (ctx, x, y) {
     var angle = Math.atan(2.1); 

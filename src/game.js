@@ -15,7 +15,7 @@ var turboMode = false;
 var gameMode = GAME_PACMAN;
 var getGameName = (function(){
 
-    var names = ["PAC-MAN", "MS PAC-MAN", "COOKIE-MAN","CRAZY OTTO","ASTERE"];
+    var names = ["TOM", "ADELE", "JUNIE","CRAZY OTTO","ASTERE"];
     
     return function(mode) {
         if (mode == undefined) {
@@ -157,15 +157,22 @@ var getPlayerDrawFunc = function(mode) {
         return atlas.drawOttoSprite;
     }
     else if (mode == GAME_PACMAN) {
-        return atlas.drawPacmanSprite;
+        //return atlas.drawPacmanSprite;
+	//return drawCovid19TomSprite;
+	return atlas.drawCovid19TomSprite;
     }
     else if (mode == GAME_MSPACMAN) {
-        return atlas.drawMsPacmanSprite;
+        //return atlas.drawMsPacmanSprite;
+	//return drawCovid19AdeleSprite;
+	return atlas.drawCovid19AdeleSprite;
     }
     else if (mode == GAME_COOKIE) {
-        return atlas.drawCookiemanSprite;
+        //return atlas.drawCookiemanSprite;
+	//return drawCovid19JunieSprite;
+	return atlas.drawCovid19JunieSprite;
     }
     else if (mode == GAME_COVID19) {
+	//return drawCovid19AstereSprite;
         return atlas.drawCovid19AstereSprite;
     }
 };

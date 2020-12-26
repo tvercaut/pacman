@@ -108,8 +108,9 @@ var homeState = (function(){
             exitTo(preNewGameState);
         },
         function(ctx,x,y,frame) {
-            atlas.drawPacmanSprite(ctx,x,y,DIR_RIGHT,getIconAnimFrame(frame));
-	    //drawTomSprite(ctx,x,y,DIR_RIGHT,getIconAnimFrame(frame));
+            //atlas.drawPacmanSprite(ctx,x,y,DIR_RIGHT,getIconAnimFrame(frame));
+	    //drawCovid19TomSprite(ctx, x, y, DIR_RIGHT, getIconAnimFrame(frame));
+	    atlas.drawCovid19TomSprite(ctx, x, y, DIR_RIGHT, getIconAnimFrame(frame));
         });
     menu.addTextIconButton(getGameName(GAME_MSPACMAN),
         function() {
@@ -117,7 +118,9 @@ var homeState = (function(){
             exitTo(preNewGameState);
         },
         function(ctx,x,y,frame) {
-            atlas.drawMsPacmanSprite(ctx,x,y,DIR_RIGHT,getIconAnimFrame(frame));
+            //atlas.drawMsPacmanSprite(ctx,x,y,DIR_RIGHT,getIconAnimFrame(frame));
+	    //drawCovid19AdeleSprite(ctx, x, y, DIR_RIGHT, getIconAnimFrame(frame));
+	    atlas.drawCovid19AdeleSprite(ctx, x, y, DIR_RIGHT, getIconAnimFrame(frame));
         });
     menu.addTextIconButton(getGameName(GAME_COOKIE),
         function() {
@@ -125,7 +128,9 @@ var homeState = (function(){
             exitTo(preNewGameState);
         },
         function(ctx,x,y,frame) {
-            drawCookiemanSprite(ctx,x,y,DIR_RIGHT,getIconAnimFrame(frame), true);
+            //drawCookiemanSprite(ctx,x,y,DIR_RIGHT,getIconAnimFrame(frame), true);
+	    //drawCovid19JunieSprite(ctx, x, y, DIR_RIGHT, getIconAnimFrame(frame));
+	    atlas.drawCovid19JunieSprite(ctx, x, y, DIR_RIGHT, getIconAnimFrame(frame));
         });
     menu.addTextIconButton(getGameName(GAME_COVID19),
         function () {
@@ -133,6 +138,7 @@ var homeState = (function(){
             exitTo(preNewGameState);
         },
         function (ctx, x, y, frame) {
+	    //drawCovid19AstereSprite(ctx, x, y, DIR_RIGHT, getIconAnimFrame(frame));
             atlas.drawCovid19AstereSprite(ctx, x, y, DIR_RIGHT, getIconAnimFrame(frame));
         });
 
@@ -142,7 +148,8 @@ var homeState = (function(){
             exitTo(learnState);
         },
         function(ctx,x,y,frame) {
-            atlas.drawGhostSprite(ctx,x,y,Math.floor(frame/8)%2,DIR_RIGHT,false,false,false,blinky.color);
+            //atlas.drawGhostSprite(ctx,x,y,Math.floor(frame/8)%2,DIR_RIGHT,false,false,false,blinky.color);
+	    atlas.drawVirusSprite(ctx,x,y,Math.floor(frame/8)%2,DIR_RIGHT,false,false,false,blinky.color);
         });
     menu.addTextButton("ABOUT",
         function() { 
