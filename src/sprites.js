@@ -4,27 +4,34 @@
 
 var imgsprites = new preloadImgSprites();
 
+var imgspritespath;
+
 function preloadImgSprites() {
 
+    //console.log("imgspritespath",imgspritespath);
+    if (imgspritespath == undefined) {
+        imgspritespath = 'images/';
+    }
+
     this.tomOpen           = new Image(512,512);
-    this.tomOpen.src       = 'images/tom-open.png';
+    this.tomOpen.src       = imgspritespath + 'tom-open.png';
     this.tomClosed         = new Image(512,512);
-    this.tomClosed.src     = 'images/tom-closed.png';
+    this.tomClosed.src     = imgspritespath + 'tom-closed.png';
     
     this.adeleOpen         = new Image(512,512);
-    this.adeleOpen.src     = 'images/adele-open.png';
+    this.adeleOpen.src     = imgspritespath + 'adele-open.png';
     this.adeleClosed       = new Image(512,512);
-    this.adeleClosed.src   = 'images/adele-closed.png';
+    this.adeleClosed.src   = imgspritespath + 'adele-closed.png';
     
     this.junieOpen         = new Image(512,512);
-    this.junieOpen.src     = 'images/junie-open.png';
+    this.junieOpen.src     = imgspritespath + 'junie-open.png';
     this.junieClosed       = new Image(512,512);
-    this.junieClosed.src   = 'images/junie-closed.png';
+    this.junieClosed.src   = imgspritespath + 'junie-closed.png';
     
     this.astereOpen        = new Image(512,512);
-    this.astereOpen.src    = 'images/astere-open.png';
+    this.astereOpen.src    = imgspritespath + 'astere-open.png';
     this.astereClosed      = new Image(512,512);
-    this.astereClosed.src  = 'images/astere-closed.png';
+    this.astereClosed.src  = imgspritespath + 'astere-closed.png';
 	
 }
 

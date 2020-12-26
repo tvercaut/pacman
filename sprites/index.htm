@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
+    <meta charset="utf-8"/>
     <style>
         body {
             background: black;
@@ -21,6 +22,7 @@ Scale: <input type='text' id='scaleInput' onkeydown="if (event.keyCode == 13) re
 <canvas id='gridcanvas'></canvas>
 
 <script>
+var imgspritespath = '../images/';
 var renderScale = 3;
 </script>
 
@@ -30,6 +32,7 @@ var renderScale = 3;
 <script>
 
 var refresh = function() {
+    
     var scale = parseFloat(document.getElementById('scaleInput').value);
     if (isNaN(scale) || !(scale > 0 && scale <= 20) ) {
         alert('not a valid scale (0 < scale <= 20');
