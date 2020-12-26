@@ -1100,7 +1100,7 @@ var initRenderer = function(){
 
             if (fruit.getCurrentFruit()) {
                 var name = fruit.getCurrentFruit().name;
-		console.log("fruit.getCurrentFruit()",fruit.getCurrentFruit());
+		//console.log("fruit.getCurrentFruit()",fruit.getCurrentFruit());
 
                 // draw history trails of the fruit if applicable
                 if (fruit.savedPixel) {
