@@ -288,7 +288,7 @@ var getGhostNames = function(mode) {
     else if (mode == GAME_COVID19) {
         return ["wuhan", "lockdown", "cough", "fever"];
 	}*/
-    return ["wuhan", "lockdown", "cough", "fever"];
+    return ["anosmia", "fatigue", "cough", "fever"];
 };
 
 var getGhostDrawFunc = function(mode) {
@@ -2947,86 +2947,74 @@ var atlas = (function(){
             }
         })();
 
-	
-	var drawTomCells = function(row,col,dir) {
-            drawAtCell(function(x,y) { drawTomSprite(ctx, x,y, dir, Math.PI/6); }, row, col);
-            drawAtCell(function(x,y) { drawTomSprite(ctx, x,y, dir, Math.PI/3); }, row, col+1);
-        };
+	// draw tom not-immune
         row++;
 	//console.log("tom not-imune row",row);
-
-        // draw mouth closed
-        drawAtCell(function(x,y) { drawTomSprite(ctx, x,y, DIR_RIGHT, 0); }, row, 0);
-
-        // draw directions
-        (function(){
+        var drawTomCells = function (row, col, dir) {
+            drawAtCell(function (x, y) { drawTomSprite(ctx, x, y, dir, 0); }, row, col);
+            drawAtCell(function (x, y) { drawTomSprite(ctx, x, y, dir, 1); }, row, col + 1);
+            drawAtCell(function (x, y) { drawTomSprite(ctx, x, y, dir, 2); }, row, col + 2);
+        };
+        (function () {
             var i;
-            var col=1;
-            for (i=0; i<4; i++) {
-                drawTomCells(row,col,i);
-                col+=2;
+            var col = 0;
+            for (i = 0; i < 4; i++) {
+                drawTomCells(row, col, i);
+                col += 3;
             }
         })();
-	
-	var drawAdeleCells = function(row,col,dir) {
-            drawAtCell(function(x,y) { drawAdeleSprite(ctx, x,y, dir, Math.PI/6); }, row, col);
-            drawAtCell(function(x,y) { drawAdeleSprite(ctx, x,y, dir, Math.PI/3); }, row, col+1);
-        };
+
+	// draw adele not-immune
         row++;
 	//console.log("adele not-imune row",row);
-
-        // draw mouth closed
-        drawAtCell(function(x,y) { drawAdeleSprite(ctx, x,y, DIR_RIGHT, 0); }, row, 0);
-
-        // draw directions
-        (function(){
+        var drawAdeleCells = function (row, col, dir) {
+            drawAtCell(function (x, y) { drawAdeleSprite(ctx, x, y, dir, 0); }, row, col);
+            drawAtCell(function (x, y) { drawAdeleSprite(ctx, x, y, dir, 1); }, row, col + 1);
+            drawAtCell(function (x, y) { drawAdeleSprite(ctx, x, y, dir, 2); }, row, col + 2);
+        };
+        (function () {
             var i;
-            var col=1;
-            for (i=0; i<4; i++) {
-                drawAdeleCells(row,col,i);
-                col+=2;
+            var col = 0;
+            for (i = 0; i < 4; i++) {
+                drawAdeleCells(row, col, i);
+                col += 3;
             }
         })();
-	
-	var drawJunieCells = function(row,col,dir) {
-            drawAtCell(function(x,y) { drawJunieSprite(ctx, x,y, dir, Math.PI/6); }, row, col);
-            drawAtCell(function(x,y) { drawJunieSprite(ctx, x,y, dir, Math.PI/3); }, row, col+1);
-        };
+
+	// draw junie not-immune
         row++;
 	//console.log("junie not-imune row",row);
-
-        // draw mouth closed
-        drawAtCell(function(x,y) { drawJunieSprite(ctx, x,y, DIR_RIGHT, 0); }, row, 0);
-
-        // draw directions
-        (function(){
+        var drawJunieCells = function (row, col, dir) {
+            drawAtCell(function (x, y) { drawJunieSprite(ctx, x, y, dir, 0); }, row, col);
+            drawAtCell(function (x, y) { drawJunieSprite(ctx, x, y, dir, 1); }, row, col + 1);
+            drawAtCell(function (x, y) { drawJunieSprite(ctx, x, y, dir, 2); }, row, col + 2);
+        };
+        (function () {
             var i;
-            var col=1;
-            for (i=0; i<4; i++) {
-                drawJunieCells(row,col,i);
-                col+=2;
+            var col = 0;
+            for (i = 0; i < 4; i++) {
+                drawJunieCells(row, col, i);
+                col += 3;
+            }
+        })();
+
+	// draw astere not-immune
+        row++;
+	//console.log("astere not-imune row",row);
+        var drawAstereCells = function (row, col, dir) {
+            drawAtCell(function (x, y) { drawAstereSprite(ctx, x, y, dir, 0); }, row, col);
+            drawAtCell(function (x, y) { drawAstereSprite(ctx, x, y, dir, 1); }, row, col + 1);
+            drawAtCell(function (x, y) { drawAstereSprite(ctx, x, y, dir, 2); }, row, col + 2);
+        };
+        (function () {
+            var i;
+            var col = 0;
+            for (i = 0; i < 4; i++) {
+                drawAstereCells(row, col, i);
+                col += 3;
             }
         })();
 	
-	var drawAstereCells = function(row,col,dir) {
-            drawAtCell(function(x,y) { drawAstereSprite(ctx, x,y, dir, Math.PI/6); }, row, col);
-            drawAtCell(function(x,y) { drawAstereSprite(ctx, x,y, dir, Math.PI/3); }, row, col+1);
-        };
-        row++;
-	//console.log("astere not-imune row",row);
-
-        // draw mouth closed
-        drawAtCell(function(x,y) { drawAstereSprite(ctx, x,y, DIR_RIGHT, 0); }, row, 0);
-
-        // draw directions
-        (function(){
-            var i;
-            var col=1;
-            for (i=0; i<4; i++) {
-                drawAstereCells(row,col,i);
-                col+=2;
-            }
-        })();
 	
     };
 
@@ -3269,119 +3257,67 @@ var atlas = (function(){
         copyCellTo(row,col,destCtx,x,y);
     };
 
-    var copyTomSprite = function(destCtx,x,y,dirEnum,frame) {
-        var row = 32;
-        var col;
-        if (frame == 0) {
-            col = 0;
-        }
-        else {
-           col = dirEnum*2+1+(frame-1);
-        }
-        copyCellTo(row,col,destCtx,x,y);
-	//drawTomSprite(destCtx, x, y, dirEnum, frame);
-    };
-
-    var copyAdeleSprite = function(destCtx,x,y,dirEnum,frame) {
-        var row = 33;
-        var col;
-        if (frame == 0) {
-            col = 0;
-        }
-        else {
-           col = dirEnum*2+1+(frame-1);
-        }
-        copyCellTo(row,col,destCtx,x,y);
-	//drawAdeleSprite(destCtx, x, y, dirEnum, frame);
-    };
-
-    var copyJunieSprite = function(destCtx,x,y,dirEnum,frame) {
-        var row = 34;
-        var col;
-        if (frame == 0) {
-            col = 0;
-        }
-        else {
-           col = dirEnum*2+1+(frame-1);
-        }
-        copyCellTo(row,col,destCtx,x,y);
-	//drawJunieSprite(destCtx, x, y, dirEnum, frame);
-    };
-
-    var copyAstereSprite = function(destCtx,x,y,dirEnum,frame) {
-        var row = 35;
-        var col;
-        if (frame == 0) {
-            col = 0;
-        }
-        else {
-           col = dirEnum*2+1+(frame-1);
-        }
-        copyCellTo(row,col,destCtx,x,y);
-	//drawAstereSprite(destCtx, x, y, dirEnum, frame);
-    };
-
     var copyCovid19TomSprite = function (destCtx, x, y, dirEnum, frame, ignore, energized) {
         // for non in game cases show mask all the time
-        // if energized pac man has mask
+        // if energized sprite has mask
         if (energized == undefined || energized == true) {
             var row = 28;
             var col = dirEnum * 3 + frame;
             copyCellTo(row, col, destCtx, x, y);
         }
         else {
-            // normal pacman in other cases
-            //copyPacmanSprite(destCtx, x, y, dirEnum, frame);
-	    //drawTomSprite(destCtx, x, y, dirEnum, frame);
-	    copyTomSprite(destCtx, x, y, dirEnum, frame);
+            // normal sprite in other cases
+	    var row = 32;
+            var col = dirEnum * 3 + frame;
+            copyCellTo(row, col, destCtx, x, y);
         }
     };
 
     var copyCovid19AdeleSprite = function (destCtx, x, y, dirEnum, frame, ignore, energized) {
         // for non in game cases show mask all the time
-        // if energized pac man has mask
+        // if energized sprite has mask
         if (energized == undefined || energized == true) {
             var row = 29;
             var col = dirEnum * 3 + frame;
             copyCellTo(row, col, destCtx, x, y);
         }
         else {
-            // normal pacman in other cases
-            //copyPacmanSprite(destCtx, x, y, dirEnum, frame);
-	    //drawAdeleSprite(destCtx, x, y, dirEnum, frame);
-	    copyAdeleSprite(destCtx, x, y, dirEnum, frame);
+            // normal sprite in other cases
+	    var row = 33;
+            var col = dirEnum * 3 + frame;
+            copyCellTo(row, col, destCtx, x, y);
         }
     };
 
     var copyCovid19JunieSprite = function (destCtx, x, y, dirEnum, frame, ignore, energized) {
         // for non in game cases show mask all the time
-        // if energized pac man has mask
+        // if energized sprite has mask
         if (energized == undefined || energized == true) {
             var row = 30;
             var col = dirEnum * 3 + frame;
             copyCellTo(row, col, destCtx, x, y);
         }
         else {
-            // normal pacman in other cases
-            //copyPacmanSprite(destCtx, x, y, dirEnum, frame);
-	    //drawJunieSprite(destCtx, x, y, dirEnum, frame);
-	    copyJunieSprite(destCtx, x, y, dirEnum, frame);
+            // normal sprite in other cases
+	    var row = 34;
+            var col = dirEnum * 3 + frame;
+            copyCellTo(row, col, destCtx, x, y);
         }
     };
     
     var copyCovid19AstereSprite = function (destCtx, x, y, dirEnum, frame, ignore, energized) {
         // for non in game cases show mask all the time
-        // if energized pac man has mask
+        // if energized sprite has mask
         if (energized == undefined || energized == true) {
             var row = 31;
             var col = dirEnum * 3 + frame;
             copyCellTo(row, col, destCtx, x, y);
         }
         else {
-            // normal pacman in other cases
-            //copyPacmanSprite(destCtx, x, y, dirEnum, frame);
-	    //drawAstereSprite(destCtx, x, y, dirEnum, frame);
-	    copyAstereSprite(destCtx, x, y, dirEnum, frame);
+            // normal sprite in other cases
+	    var row = 35;
+            var col = dirEnum * 3 + frame;
+            copyCellTo(row, col, destCtx, x, y);
         }
     };
 
@@ -3440,10 +3376,6 @@ var atlas = (function(){
         drawOttoSprite: copyOttoSprite,
         drawMsOttoSprite: copyMsOttoSprite,
         drawPacmanSprite: copyPacmanSprite,
-        drawTomSprite: copyTomSprite,
-        drawAdeleSprite: copyAdeleSprite,
-        drawJunieSprite: copyJunieSprite,
-        drawAstereSprite: copyAstereSprite,
         drawMsPacmanSprite: copyMsPacmanSprite,
         drawCookiemanSprite: copyCookiemanSprite,
         drawFruitSprite: copyFruitSprite,
@@ -4291,7 +4223,7 @@ var initRenderer = function(){
                 var scale = 0.85;
                 for (i=0, j=startLevel-numFruit+1; i<numFruit && j<=level; j++, i++) {
                     f = fruits[j];
-		    console.log("fruit",f," ",j);
+		    //console.log("fruit",f," ",j);
                     if (f) {
                         drawFunc = getSpriteFuncFromFruitName(f.name);
                         if (drawFunc) {
@@ -4562,7 +4494,7 @@ var initRenderer = function(){
 
             if (fruit.getCurrentFruit()) {
                 var name = fruit.getCurrentFruit().name;
-		console.log("fruit.getCurrentFruit()",fruit.getCurrentFruit());
+		//console.log("fruit.getCurrentFruit()",fruit.getCurrentFruit());
 
                 // draw history trails of the fruit if applicable
                 if (fruit.savedPixel) {
@@ -5323,27 +5255,34 @@ var inGameMenu = (function() {
 
 var imgsprites = new preloadImgSprites();
 
+var imgspritespath;
+
 function preloadImgSprites() {
 
+    //console.log("imgspritespath",imgspritespath);
+    if (imgspritespath == undefined) {
+        imgspritespath = 'images/';
+    }
+
     this.tomOpen           = new Image(512,512);
-    this.tomOpen.src       = 'images/tom-open.png';
+    this.tomOpen.src       = imgspritespath + 'tom-open.png';
     this.tomClosed         = new Image(512,512);
-    this.tomClosed.src     = 'images/tom-closed.png';
+    this.tomClosed.src     = imgspritespath + 'tom-closed.png';
     
     this.adeleOpen         = new Image(512,512);
-    this.adeleOpen.src     = 'images/adele-open.png';
+    this.adeleOpen.src     = imgspritespath + 'adele-open.png';
     this.adeleClosed       = new Image(512,512);
-    this.adeleClosed.src   = 'images/adele-closed.png';
+    this.adeleClosed.src   = imgspritespath + 'adele-closed.png';
     
     this.junieOpen         = new Image(512,512);
-    this.junieOpen.src     = 'images/junie-open.png';
+    this.junieOpen.src     = imgspritespath + 'junie-open.png';
     this.junieClosed       = new Image(512,512);
-    this.junieClosed.src   = 'images/junie-closed.png';
+    this.junieClosed.src   = imgspritespath + 'junie-closed.png';
     
     this.astereOpen        = new Image(512,512);
-    this.astereOpen.src    = 'images/astere-open.png';
+    this.astereOpen.src    = imgspritespath + 'astere-open.png';
     this.astereClosed      = new Image(512,512);
-    this.astereClosed.src  = 'images/astere-closed.png';
+    this.astereClosed.src  = imgspritespath + 'astere-closed.png';
 	
 }
 

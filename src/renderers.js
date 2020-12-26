@@ -829,7 +829,7 @@ var initRenderer = function(){
                 var scale = 0.85;
                 for (i=0, j=startLevel-numFruit+1; i<numFruit && j<=level; j++, i++) {
                     f = fruits[j];
-		    console.log("fruit",f," ",j);
+		    //console.log("fruit",f," ",j);
                     if (f) {
                         drawFunc = getSpriteFuncFromFruitName(f.name);
                         if (drawFunc) {
