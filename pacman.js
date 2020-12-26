@@ -14013,7 +14013,7 @@ var triggerCutsceneAtEndLevel = function() {
     }
     else if (gameMode == GAME_COVID19) {
         if (level == 2) {
-            playCutScene(coronaCutscene1, readyNewState);
+            playCutScene(covid19Cutscene1, readyNewState);
             return true;
         }
     }
