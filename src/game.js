@@ -128,7 +128,7 @@ var getGhostNames = function(mode) {
     else if (mode == GAME_COVID19) {
         return ["wuhan", "lockdown", "cough", "fever"];
 	}*/
-    return ["wuhan", "lockdown", "cough", "fever"];
+    return ["anosmia", "fatigue", "cough", "fever"];
 };
 
 var getGhostDrawFunc = function(mode) {
