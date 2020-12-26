@@ -439,7 +439,7 @@ var atlas = (function(){
             }
         })();
 	
-	
+	row++;
     };
 
     var copyCellTo = function(row, col, destCtx, x, y,display) {

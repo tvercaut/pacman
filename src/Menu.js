@@ -136,7 +136,11 @@ Menu.prototype = {
             ctx.textBaseline = "middle";
             ctx.textAlign = "center";
             ctx.fillStyle = "#FFF";
-            ctx.fillText(this.title,this.x + this.w/2, this.y+this.pad + this.h/2);
+	    var lines = this.title.split('\n');
+	    for (var i = 0; i<lines.length; i++) {
+	        ctx.fillText(lines[i],this.x + this.w/2, this.y+this.pad + + ((i+1)*this.h/2));
+	    }
+            //ctx.fillText(this.title,this.x + this.w/2, this.y+this.pad + this.h/2);
         }
         var i;
         for (i=0; i<this.buttonCount; i++) {

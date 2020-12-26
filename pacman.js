@@ -3015,7 +3015,7 @@ var atlas = (function(){
             }
         })();
 	
-	
+	row++;
     };
 
     var copyCellTo = function(row, col, destCtx, x, y,display) {
@@ -5054,7 +5054,11 @@ Menu.prototype = {
             ctx.textBaseline = "middle";
             ctx.textAlign = "center";
             ctx.fillStyle = "#FFF";
-            ctx.fillText(this.title,this.x + this.w/2, this.y+this.pad + this.h/2);
+	    var lines = this.title.split('\n');
+	    for (var i = 0; i<lines.length; i++) {
+	        ctx.fillText(lines[i],this.x + this.w/2, this.y+this.pad + + ((i+1)*this.h/2));
+	    }
+            //ctx.fillText(this.title,this.x + this.w/2, this.y+this.pad + this.h/2);
         }
         var i;
         for (i=0; i<this.buttonCount; i++) {
@@ -10912,7 +10916,7 @@ var homeState = (function(){
         menu.disable();
     };
 
-    var menu = new Menu("HAPPY 2021! PICK A DODUS",2*tileSize,0*tileSize,mapWidth-4*tileSize,3*tileSize,tileSize,tileSize+"px ArcadeR", "#EEE");
+    var menu = new Menu("BEAT THE VIRUS IN 2021!\n PICK A DODUS",2*tileSize,0*tileSize,mapWidth-4*tileSize,3*tileSize,tileSize,tileSize+"px ArcadeR", "#EEE");
     var getIconAnimFrame = function(frame) {
         frame = Math.floor(frame/3)+1;
         frame %= 4;
