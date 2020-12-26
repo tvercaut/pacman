@@ -1,3 +1,4 @@
 *~
 *.pyc
 *.bak
+.DS_Store
