@@ -5264,24 +5264,24 @@ function preloadImgSprites() {
         imgspritespath = 'images/';
     }
 
-    this.tomOpen           = new Image(512,512);
+    this.tomOpen           = new Image();
     this.tomOpen.src       = imgspritespath + 'tom-open.png';
-    this.tomClosed         = new Image(512,512);
+    this.tomClosed         = new Image();
     this.tomClosed.src     = imgspritespath + 'tom-closed.png';
     
-    this.adeleOpen         = new Image(512,512);
+    this.adeleOpen         = new Image();
     this.adeleOpen.src     = imgspritespath + 'adele-open.png';
-    this.adeleClosed       = new Image(512,512);
+    this.adeleClosed       = new Image();
     this.adeleClosed.src   = imgspritespath + 'adele-closed.png';
     
-    this.junieOpen         = new Image(512,512);
+    this.junieOpen         = new Image();
     this.junieOpen.src     = imgspritespath + 'junie-open.png';
-    this.junieClosed       = new Image(512,512);
+    this.junieClosed       = new Image();
     this.junieClosed.src   = imgspritespath + 'junie-closed.png';
     
-    this.astereOpen        = new Image(512,512);
+    this.astereOpen        = new Image();
     this.astereOpen.src    = imgspritespath + 'astere-open.png';
-    this.astereClosed      = new Image(512,512);
+    this.astereClosed      = new Image();
     this.astereClosed.src  = imgspritespath + 'astere-closed.png';
 	
 }
@@ -14979,6 +14979,13 @@ window.addEventListener("load", function() {
     initRenderer();
     atlas.create();
     initSwipe();
+
+    // hide preloading text
+    var preloader = document.getElementById('preload-text');
+    if (preloader) {
+        preloader.style.display = "none";;
+    }
+    
 	var anchor = window.location.hash.substring(1);
 	if (anchor == "learn") {
 		switchState(learnState);

@@ -6,6 +6,13 @@ window.addEventListener("load", function() {
     initRenderer();
     atlas.create();
     initSwipe();
+
+    // hide preloading text
+    var preloader = document.getElementById('preload-text');
+    if (preloader) {
+        preloader.style.display = "none";;
+    }
+    
 	var anchor = window.location.hash.substring(1);
 	if (anchor == "learn") {
 		switchState(learnState);

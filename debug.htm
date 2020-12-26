@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8"/>
     <title>Happy 2021 from Les Dodus!</title>
-    <!-- last updated: Sat 26 Dec 2020 14:03:10 GMT -->
+    <!-- last updated: Sat 26 Dec 2020 15:25:55 GMT -->
     <!-- Lock viewport on mobile devices. -->
     <!--
     <meta name="viewport" content="width=device-width; initial-scale=1.0; maximum-scale=1.0; user-scalable=0;" />
@@ -25,16 +25,19 @@
         body {
             margin:0;
             background: #000;
+            color: white
         }
         @font-face {
             font-family: 'ArcadeR';
             src: url('font/ARCADE_R.TTF');
-            /*
-            src: url('font/PressStart2P.ttf');
-            */
         }
         #canvas-warning {
             color: #FF0;
+            font-size: 1.5em;
+        }
+        #preload-text {
+            font-family: 'ArcadeR';
+            text-align: left;
             font-size: 1.5em;
         }
     </style>
@@ -82,6 +85,7 @@
 </div>
 
     <div style='font-family: ArcadeR'> </div>
+    <div id='preload-text'>Loading...</div>
     <canvas id='canvas'><div id="canvas-warning">Your browser does not support HTML Canvas.  Please upgrade!</div></canvas>
     <canvas id='atlas' style="display:none"></canvas>
 
